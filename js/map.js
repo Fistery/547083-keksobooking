@@ -188,7 +188,7 @@ var disFieldset = function () {
       formFieldsets[i].removeAttribute('disabled');
     }
   }
-}
+};
 
 disFieldset();
 
@@ -215,7 +215,7 @@ var disSelect = function () {
   } else {
     fieldsetFilters.removeAttribute('disabled');
   }
-}
+};
 
 disSelect();
 // функция что бы убрать класс hidden
@@ -248,41 +248,31 @@ inputAdress.value = addressLeft + '\, ' + addressTop;
 var mapCardArr = document.querySelectorAll('.map__card');
 
 // обработаем событие
-var OnOpen = function () {
+var оnOpen = function OnOpen() {
+  var loop = function loop(i) {
+    mapPins[i].addEventListener('click', function () {
+      mapCardArr[i - 1].classList.remove('hidden');
+    });
+  };
+
   for (var i = 1; i < mapPins.length; i++) {
-    mapPins[1].addEventListener('click', function () {
-      mapCardArr[0].classList.remove('hidden');
-    });
-    mapPins[2].addEventListener('click', function () {
-      mapCardArr[1].classList.remove('hidden');
-    });
-    mapPins[3].addEventListener('click', function () {
-      mapCardArr[2].classList.remove('hidden');
-    });
-    mapPins[4].addEventListener('click', function () {
-      mapCardArr[3].classList.remove('hidden');
-    });
-    mapPins[5].addEventListener('click', function () {
-      mapCardArr[4].classList.remove('hidden');
-    });
-    mapPins[6].addEventListener('click', function () {
-      mapCardArr[5].classList.remove('hidden');
-    });
-    mapPins[7].addEventListener('click', function () {
-      mapCardArr[6].classList.remove('hidden');
-    })
+    loop(i);
   }
 };
-OnOpen();
+
+оnOpen();
 // сделаем что бы попап закрывался нажатием на крестик
 var cardClose = document.querySelectorAll('.popup__close');
-for (let i = 0; i < cardClose.length; i++) {
-  cardClose[i].addEventListener('click', function () {
-    mapCardArr[i].classList.add('hidden');
-  })
-}
+var popClose = function () {
+  var close = function (i) {
+    cardClose[i].addEventListener('click', function () {
+      mapCardArr[i].classList.add('hidden');
+    });
+  };
 
-// mapCardArr[1].addEventListener('click', function (event) {
-//   var target = event.target; // будет лежать узел DOM по которому произошел клик
-//   alert(target);
-// })
+  for (var i = 0; i < cardClose.length; i++) {
+    close(i);
+  }
+};
+
+popClose();
