@@ -17,12 +17,9 @@ button.addEventListener('click', function () {
     capacity.setCustomValidity('выберите другое количество гостей');
   } else if (rooms.value === '3' && capacity.value === '0') {
     capacity.setCustomValidity('выберите другое количество гостей');
-  } else if (rooms.value === '100' && capacity.value < '100') {
+  } else if (rooms.value === '0' && capacity.value < '100') {
     capacity.setCustomValidity('выберите другое количество гостей');
   } else {
     capacity.setCustomValidity('');
   }
 });
-
-console.log(rooms.value);
-console.log(capacity.value);
