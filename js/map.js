@@ -229,12 +229,70 @@ var pinDelHidden = function () {
 // сэмулируем перетаскивание метки
 var mainPin = document.querySelector('.map__pin--main');
 
-mainPin.addEventListener('click', function () {
+mainPin.addEventListener('mousedown', function (evt) {
+  evt.preventDefault();
   map.classList.remove('map--faded');
   form.classList.remove('ad-form--disabled');
   pinDelHidden();
   disSelect();
   disFieldset();
+
+  var coordsPin = {
+    x: evt.clientX,
+    y: evt.clientY
+  };
+
+  var onMouseMov = function (moveEvt) {
+    moveEvt.preventDefault();
+
+    var shift = {
+      x: coordsPin.x - moveEvt.clientX,
+      y: coordsPin.y - moveEvt.clientY
+    };
+
+    var limits = {
+      top: map.offsetTop + mainPin.offsetHeight,
+      right: map.offsetWidth + map.offsetLeft,
+      bottom: map.offsetHeight + map.offsetTop - mainPin.offsetHeight - 50,
+      left: map.offsetLeft
+    };
+
+    coordsPin = {
+      x: moveEvt.clientX,
+      y: moveEvt.clientY
+    };
+    if (coordsPin.x > limits.right) {
+      coordsPin.x = limits.right;
+      onMouseUp();
+    } else if (coordsPin.x < limits.left) {
+      coordsPin.x = limits.left;
+      onMouseUp();
+    }
+    if (coordsPin.y < limits.top) {
+      coordsPin.y = limits.top;
+      onMouseUp();
+    } else if (coordsPin.y > limits.bottom) {
+      coordsPin.y = limits.bottom;
+      onMouseUp();
+    }
+    // при движении изменяем координаты на которые указывает наш пин
+    var addressLeft = mainPin.offsetLeft + 32.5;
+    var addressTop = mainPin.offsetTop + 65;
+    inputAdress.value = addressLeft + '\, ' + addressTop;
+
+    mainPin.style.top = (mainPin.offsetTop - shift.y) + 'px';
+    mainPin.style.left = (mainPin.offsetLeft - shift.x) + 'px';
+  };
+
+  var onMouseUp = function (upEvt) {
+    upEvt.preventDefault();
+
+    document.removeEventListener('mousemove', onMouseMov);
+    document.removeEventListener('mouseup', onMouseUp);
+  };
+
+  document.addEventListener('mousemove', onMouseMov);
+  document.addEventListener('mouseup', onMouseUp);
 });
 
 // устанавливаем координаты на которые указывает наш пин
