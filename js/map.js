@@ -228,7 +228,6 @@ var pinDelHidden = function () {
 };
 // сэмулируем перетаскивание метки
 var mainPin = document.querySelector('.map__pin--main');
-
 mainPin.addEventListener('mousedown', function (evt) {
   evt.preventDefault();
   map.classList.remove('map--faded');
@@ -238,50 +237,39 @@ mainPin.addEventListener('mousedown', function (evt) {
   disFieldset();
 
   var coordsPin = {
-    x: evt.clientX,
-    y: evt.clientY
+    x: evt.pageX,
+    y: evt.pageY
   };
 
   var onMouseMov = function (moveEvt) {
     moveEvt.preventDefault();
 
     var shift = {
-      x: coordsPin.x - moveEvt.clientX,
-      y: coordsPin.y - moveEvt.clientY
+      x: coordsPin.x - moveEvt.pageX,
+      y: coordsPin.y - moveEvt.pageY
     };
 
     var limits = {
-      top: map.offsetTop + mainPin.offsetHeight,
-      right: map.offsetWidth + map.offsetLeft,
-      bottom: map.offsetHeight + map.offsetTop - mainPin.offsetHeight - 50,
-      left: map.offsetLeft
+      top: map.offsetTop + mainPin.offsetHeight + 30,
+      right: map.offsetWidth + map.offsetLeft - mainPin.clientWidth / 2,
+      bottom: map.offsetHeight + map.offsetTop - mainPin.offsetHeight - 84,
+      left: map.offsetLeft + mainPin.clientWidth / 2
     };
 
     coordsPin = {
-      x: moveEvt.clientX,
-      y: moveEvt.clientY
+      x: moveEvt.pageX,
+      y: moveEvt.pageY
     };
-    if (coordsPin.x > limits.right) {
-      coordsPin.x = limits.right;
-      onMouseUp();
-    } else if (coordsPin.x < limits.left) {
-      coordsPin.x = limits.left;
-      onMouseUp();
-    }
-    if (coordsPin.y < limits.top) {
-      coordsPin.y = limits.top;
-      onMouseUp();
-    } else if (coordsPin.y > limits.bottom) {
-      coordsPin.y = limits.bottom;
-      onMouseUp();
-    }
     // при движении изменяем координаты на которые указывает наш пин
     var addressLeft = mainPin.offsetLeft + 32.5;
     var addressTop = mainPin.offsetTop + 65;
     inputAdress.value = addressLeft + '\, ' + addressTop;
 
-    mainPin.style.top = (mainPin.offsetTop - shift.y) + 'px';
-    mainPin.style.left = (mainPin.offsetLeft - shift.x) + 'px';
+    if ((coordsPin.x > limits.left && coordsPin.x < limits.right) &&
+    (coordsPin.y > limits.top && coordsPin.y < limits.bottom)){
+      mainPin.style.top = (mainPin.offsetTop - shift.y) + 'px';
+      mainPin.style.left = (mainPin.offsetLeft - shift.x) + 'px';
+    }
   };
 
   var onMouseUp = function (upEvt) {
