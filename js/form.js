@@ -1,5 +1,5 @@
-( function () {
-  'use strict';
+'use strict';
+(function () {
 
   var rooms = document.querySelector('#room_number');
   var capacity = document.querySelector('#capacity');

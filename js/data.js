@@ -1,5 +1,5 @@
+'use strict';
 (function () {
-  'use strict';
 
   // рандомные числа
 
@@ -124,5 +124,5 @@
     convertType: convertType,
     peoples: peoples,
     map: map
-  }
+  };
 })();

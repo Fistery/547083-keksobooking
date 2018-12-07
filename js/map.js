@@ -1,5 +1,5 @@
+'use strict';
 (function () {
-  'use strict';
 
   // создание меток авторов
 
@@ -146,7 +146,7 @@
       inputAdress.value = addressLeft + '\, ' + addressTop;
 
       if ((coordsPin.x > limits.left && coordsPin.x < limits.right) &&
-      (coordsPin.y > limits.top && coordsPin.y < limits.bottom)){
+      (coordsPin.y > limits.top && coordsPin.y < limits.bottom)) {
         mainPin.style.top = (mainPin.offsetTop - shift.y) + 'px';
         mainPin.style.left = (mainPin.offsetLeft - shift.x) + 'px';
       }
