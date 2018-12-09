@@ -84,25 +84,17 @@
 
   // добавление дополнительных картинок в card
 
-  var cardImage = document.querySelector('#card')
-    .content
-    .querySelector('.popup__photos');
-
-  var cardImg = document.querySelector('#card')
-    .content
-    .querySelector('.popup__photos')
-    .querySelector('.popup__photo');
-
-
-  var cardImageTemplate = function () {
-    for (var z = 1; z < 3; z++) {
-      var cardImageTemp = cardImg.cloneNode(true);
-      cardImageTemp.src = peoples[0].offer.photos[z];
-      cardImage.appendChild(cardImageTemp);
+  var cardImageTemplate = function (selector, photos) {
+    var selectorImg = selector.querySelector('img');
+    for (var i = 0; i < photos.length; i++) {
+      var cardImageTemp = selectorImg.cloneNode(true);
+      cardImageTemp.src = photos[i];
+      selector.appendChild(cardImageTemp);
     }
+    selectorImg.remove();
+    // console.log(selectorImg);
+    // console.log(photos);
   };
-
-  cardImageTemplate();
 
   // изменение удобств ['palace', 'flat', 'house', 'bungalo'];
 
@@ -123,6 +115,7 @@
   window.data = {
     convertType: convertType,
     peoples: peoples,
-    map: map
+    map: map,
+    cardImageTemplate: cardImageTemplate
   };
 })();

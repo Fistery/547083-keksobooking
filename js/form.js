@@ -24,4 +24,13 @@
       capacity.setCustomValidity('');
     }
   });
+
+  var form = document.querySelector('.ad-form');
+  var formData = new FormData(form);
+
+  form.addEventListener('submit', function (evt) {
+    evt.preventDefault();
+    window.upload(formData, window.main.onLoad, window.main.onError);
+  });
+
 })();
