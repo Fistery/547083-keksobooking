@@ -30,7 +30,11 @@
 
   form.addEventListener('submit', function (evt) {
     evt.preventDefault();
-    window.upload(formData, window.main.onLoad, window.main.onError);
+    window.upload(formData, window.POST.onLoad, window.main.onError);
   });
+
+  window.form = {
+    form: form
+  };
 
 })();

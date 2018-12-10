@@ -46,7 +46,6 @@
         onLoad(xhr.response);
       } else {
         onError('Cтатус ответа: ' + xhr.status + ' ' + xhr.statusText);
-        window.map.generatedError();
       }
     });
 

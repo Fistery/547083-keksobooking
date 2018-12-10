@@ -92,8 +92,6 @@
       selector.appendChild(cardImageTemp);
     }
     selectorImg.remove();
-    // console.log(selectorImg);
-    // console.log(photos);
   };
 
   // изменение удобств ['palace', 'flat', 'house', 'bungalo'];
@@ -112,10 +110,59 @@
     return type;
   };
 
+  var errorTemplate = document.querySelector('#error')
+    .content
+    .querySelector('.error');
+  var main = document.querySelector('main');
+
+  var generatedError = function () {
+    var error = errorTemplate.cloneNode(true);
+    error.classList.add('hidden');
+    main.appendChild(error);
+  };
+
+  generatedError();
+
+  var successTemplate = document.querySelector('#success')
+    .content
+    .querySelector('.success');
+
+  var generateSuccess = function () {
+    var successCard = successTemplate.cloneNode(true);
+    successCard.classList.add('hidden');
+    main.appendChild(successCard);
+  };
+
+  generateSuccess();
+
+  var error = document.querySelector('.error');
+  var success = document.querySelector('.succes');
+
+
+  var ESC_KEY = 27;
+
+  var keyDown = function (element) {
+    document.addEventListener('keydown', function (evt) {
+      if (evt.keyCode === ESC_KEY) {
+        element.classList.add('hidden');
+      }
+    });
+  };
+
+  var documentClick = function (element) {
+    document.addEventListener('click', function () {
+      element.classList.add('hidden');
+    });
+  };
+
   window.data = {
     convertType: convertType,
     peoples: peoples,
     map: map,
-    cardImageTemplate: cardImageTemplate
+    cardImageTemplate: cardImageTemplate,
+    keyDown: keyDown,
+    error: error,
+    success: success,
+    documentClick: documentClick
   };
 })();
