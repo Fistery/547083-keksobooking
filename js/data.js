@@ -149,9 +149,9 @@
     });
   };
 
-  var documentClick = function (element) {
+  var documentClick = function (elem) {
     document.addEventListener('click', function () {
-      element.classList.add('hidden');
+      elem.classList.add('hidden');
     });
   };
 
