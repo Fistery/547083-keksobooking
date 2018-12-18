@@ -28,8 +28,7 @@
   var form = document.querySelector('.ad-form');
   var formData = new FormData(form);
 
-  form.addEventListener('submit', function (evt) {
-    evt.preventDefault();
+  form.addEventListener('submit', function () {
     window.upload(formData, window.POST.onLoad, window.main.onError);
   });
 
