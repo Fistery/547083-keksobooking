@@ -36,5 +36,4 @@
   window.form = {
     form: form
   };
-
 })();

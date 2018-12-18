@@ -1,8 +1,7 @@
 'use strict';
 (function () {
-  var xhr = new XMLHttpRequest();
-
   window.load = function (URL, onLoad, onError) {
+    var xhr = new XMLHttpRequest();
     xhr.responseType = 'json';
 
     xhr.open('GET', URL);
@@ -37,6 +36,8 @@
   };
 
   window.upload = function (data, onLoad, onError) {
+    var xhr = new XMLHttpRequest();
+    var URL = 'https://js.dump.academy/keksobooking/data';
     xhr.responseType = 'json';
 
     xhr.open('POST', URL);
