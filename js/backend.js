@@ -37,7 +37,7 @@
 
   window.upload = function (data, onLoad, onError) {
     var xhr = new XMLHttpRequest();
-    var URL = 'https://js.dump.academy/keksobooking/data';
+    var URL = 'https://js.dump.academy/keksobooking';
     xhr.responseType = 'json';
 
     xhr.open('POST', URL);
