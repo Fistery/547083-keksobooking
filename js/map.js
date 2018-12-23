@@ -1,9 +1,10 @@
 'use strict';
 (function () {
 
-  var init = function (data) {
-
+  var init = function (data, showPins) {
     // создание меток авторов
+
+    // функция что бы убрать класс hidden
 
     var authorPin = document.querySelector('#pin')
       .content
@@ -25,6 +26,18 @@
     };
 
     createAllPin(data);
+
+    var mapPins = document.querySelectorAll('.map__pin');
+
+    var pinDelHidden = function () {
+      for (var i = mapPins.length - 1; i > 0; i--) {
+        mapPins[i].classList.remove('hidden');
+      }
+    };
+
+    if (showPins) {
+      pinDelHidden();
+    }
 
     var cardTemplate = document.querySelector('#card')
       .content
@@ -119,17 +132,11 @@
     };
 
     disSelect();
-    // функция что бы убрать класс hidden
-    var mapPins = document.querySelectorAll('.map__pin');
 
-    var pinDelHidden = function () {
-      for (var i = mapPins.length - 1; i > 0; i--) {
-        mapPins[i].classList.remove('hidden');
-      }
-    };
     // сэмулируем перетаскивание метки
     var mainPin = document.querySelector('.map__pin--main');
     mainPin.addEventListener('mousedown', function (evt) {
+      // debugger;
       evt.preventDefault();
       window.data.map.classList.remove('map--faded');
       form.classList.remove('ad-form--disabled');
@@ -227,8 +234,18 @@
     var allCard = document.querySelectorAll('.map__card');
 
     var goodUpLoad = function () {
-      for (var i = mapPins.length; i > 0; i--) {
+      for (var i = mapPins.length - 1; i > 0; i--) {
         mapPins[i].remove();
+      }
+      deleteCard();
+      form.reset();
+      mainPin.style.left = 570 + 'px';
+      mainPin.style.top = 375 + 'px';
+      inputAdress.value = addressLeft + '\, ' + addressTop;
+    };
+
+    var deleteCard = function () {
+      for (var i = allCard.length - 1; i > 0; i--) {
         allCard[i].remove();
       }
     };
@@ -248,9 +265,11 @@
     onClickFormClearButton();
 
     window.map.upload = {
-      goodUpLoad: goodUpLoad
+      goodUpLoad: goodUpLoad,
+      pinDelHidden: pinDelHidden
     };
   };
+
 
   window.map = {
     init: init

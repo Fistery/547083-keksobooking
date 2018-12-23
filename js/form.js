@@ -7,14 +7,13 @@
   var price = form.querySelector('#price');
   var type = form.querySelector('#type');
   var button = document.querySelector('.ad-form__submit');
-  var formData = new FormData(form);
   var timeIn = document.querySelector('#timein');
   var timeOut = document.querySelector('#timeout');
 
   document.addEventListener('DOMContentLoaded', function () {
     type.onchange = changeEventHandlerType;
-    timeIn.onchange = changeEventHandlerTimeIn;
-    timeOut.onchange = changeEventHandlerTimeIn;
+    timeIn.onchange = changeEventHandlerTime;
+    timeOut.onchange = changeEventHandlerTime;
   }, false);
 
   var changeEventHandlerType = function () {
@@ -34,26 +33,10 @@
   };
   changeEventHandlerType();
 
-  var changeEventHandlerTimeIn = function () {
-    timeOut.value = timeIn.value;
+  var changeEventHandlerTime = function (evt) {
+    timeIn.value = evt.target.value;
+    timeOut.value = evt.target.value;
   };
-  changeEventHandlerTimeIn();
-
-  // document.addEventListener('DOMContentLoaded', function () {
-  //   timeIn.onchange = changeEventHandlerTimeOut;
-  // }, false);
-
-  // var changeEventHandlerTimeOut = function () {
-  //   if (timeOut.value === '12') {
-  //     timeIn.value = '12';
-  //   } else if (timeOut.value === '13') {
-  //     timeIn.value = '13';
-  //   } else if (timeOut.value === '14') {
-  //     timeIn.value = '14';
-  //   }
-  // };
-  // changeEventHandlerTimeOut();
-
 
   button.addEventListener('click', function () {
     if (rooms.value === '1' && capacity.value > '1') {
@@ -77,6 +60,7 @@
 
   form.addEventListener('submit', function () {
     event.preventDefault();
+    var formData = new FormData(form);
     window.upload(formData, window.POST.onLoad, window.main.onError);
   });
 

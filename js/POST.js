@@ -2,10 +2,11 @@
 
 (function () {
   var onLoad = function () {
+    var success = document.querySelector('.success');
     window.map.upload.goodUpLoad();
-    window.data.success.classList.remove('hidden');
-    window.data.keyDown(window.data.succes);
-    window.data.documentClick(window.data.succes);
+    success.classList.remove('hidden');
+    window.data.keyDown(success);
+    window.data.documentClick(success);
   };
 
   window.POST = {

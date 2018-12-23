@@ -136,8 +136,6 @@
   generateSuccess();
 
   var error = document.querySelector('.error');
-  var success = document.querySelector('.succes');
-
 
   var ESC_KEY = 27;
 
@@ -145,6 +143,7 @@
     document.addEventListener('keydown', function (evt) {
       if (evt.keyCode === ESC_KEY) {
         element.classList.add('hidden');
+        window.main.loadMap();
       }
     });
   };
@@ -152,7 +151,9 @@
   var documentClick = function (elem) {
     document.addEventListener('click', function () {
       elem.classList.add('hidden');
+      window.main.loadMap();
     });
+
   };
 
   window.data = {
@@ -162,7 +163,6 @@
     cardImageTemplate: cardImageTemplate,
     keyDown: keyDown,
     error: error,
-    success: success,
     documentClick: documentClick
   };
 })();
