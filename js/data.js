@@ -84,25 +84,15 @@
 
   // добавление дополнительных картинок в card
 
-  var cardImage = document.querySelector('#card')
-    .content
-    .querySelector('.popup__photos');
-
-  var cardImg = document.querySelector('#card')
-    .content
-    .querySelector('.popup__photos')
-    .querySelector('.popup__photo');
-
-
-  var cardImageTemplate = function () {
-    for (var z = 1; z < 3; z++) {
-      var cardImageTemp = cardImg.cloneNode(true);
-      cardImageTemp.src = peoples[0].offer.photos[z];
-      cardImage.appendChild(cardImageTemp);
+  var cardImageTemplate = function (selector, photos) {
+    var selectorImg = selector.querySelector('img');
+    for (var i = 0; i < photos.length; i++) {
+      var cardImageTemp = selectorImg.cloneNode(true);
+      cardImageTemp.src = photos[i];
+      selector.appendChild(cardImageTemp);
     }
+    selectorImg.remove();
   };
-
-  cardImageTemplate();
 
   // изменение удобств ['palace', 'flat', 'house', 'bungalo'];
 
@@ -120,9 +110,59 @@
     return type;
   };
 
+  var errorTemplate = document.querySelector('#error')
+    .content
+    .querySelector('.error');
+  var main = document.querySelector('main');
+
+  var generatedError = function () {
+    var error = errorTemplate.cloneNode(true);
+    error.classList.add('hidden');
+    main.appendChild(error);
+  };
+
+  generatedError();
+
+  var successTemplate = document.querySelector('#success')
+    .content
+    .querySelector('.success');
+
+  var generateSuccess = function () {
+    var successCard = successTemplate.cloneNode(true);
+    successCard.classList.add('hidden');
+    main.appendChild(successCard);
+  };
+
+  generateSuccess();
+
+  var error = document.querySelector('.error');
+
+  var ESC_KEY = 27;
+
+  var keyDown = function (element) {
+    document.addEventListener('keydown', function (evt) {
+      if (evt.keyCode === ESC_KEY) {
+        element.classList.add('hidden');
+        window.main.loadMap();
+      }
+    });
+  };
+
+  var documentClick = function (elem) {
+    document.addEventListener('click', function () {
+      elem.classList.add('hidden');
+      window.main.loadMap();
+    });
+
+  };
+
   window.data = {
     convertType: convertType,
     peoples: peoples,
-    map: map
+    map: map,
+    cardImageTemplate: cardImageTemplate,
+    keyDown: keyDown,
+    error: error,
+    documentClick: documentClick
   };
 })();
