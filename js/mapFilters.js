@@ -209,13 +209,4 @@
     }
   };
 
-  var pinDelHide = function () {
-    for (var i = 0; i < window.map.upload.mapPins.length; i++) {
-      var typeValue = window.map.upload.mapCards[i].querySelector('.popup__type');
-      if (typeValue === houseType.value) {
-        window.map.upload.mapPins[i + 1].classList.remove('hidden');
-      }
-    }
-  };
-
 })();
