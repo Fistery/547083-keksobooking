@@ -185,22 +185,27 @@
 
   var changeEventHandlerHouseType = function () {
     window.debounce.debounce(typeFilter());
+    window.map.upload.writeFivePins();
   };
 
   var changeEventHandlerPrice = function () {
     window.debounce.debounce(priceFilter());
+    window.map.upload.writeFivePins();
   };
 
   var changeEventHandlerRooms = function () {
     window.debounce.debounce(roomsFilter());
+    window.map.upload.writeFivePins();
   };
 
   var changeEventHandlerGuests = function () {
     window.debounce.debounce(guestsFilter());
+    window.map.upload.writeFivePins();
   };
 
   var changeEventHandlerFeatures = function () {
     window.debounce.debounce(featuresFilter());
+    window.map.upload.writeFivePins();
   };
 
   var pinAddHide = function () {

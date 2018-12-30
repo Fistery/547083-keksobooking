@@ -324,7 +324,6 @@
     };
   };
 
-
   window.map = {
     init: init
   };
