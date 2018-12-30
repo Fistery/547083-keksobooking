@@ -45,14 +45,13 @@
         }
       }
     }
-    window.map.upload.writeFivePins();
   };
 
   var priceFilter = function () {
     typeFilter();
     for (var i = 0; i < window.map.upload.mapCards.length; i++) {
       var price = window.map.upload.mapCards[i].querySelector('.popup__text--price').textContent;
-      var NumberPrice = parseInt(price.match(/\d+/));
+      var NumberPrice = parseInt((price.match(/\d+/)), 10);
       if (housePrise.value === 'low') {
         if (NumberPrice > 10000) {
           window.map.upload.mapPins[i + 1].classList.add('hidden');
@@ -69,7 +68,6 @@
         }
       }
     }
-    window.map.upload.writeFivePins();
   };
 
   var roomsFilter = function () {
@@ -94,7 +92,6 @@
         }
       }
     }
-    window.map.upload.writeFivePins();
   };
 
   var guestsFilter = function () {
@@ -120,7 +117,6 @@
         }
       }
     }
-    window.map.upload.writeFivePins();
   };
 
   var featuresFilter = function () {
@@ -146,6 +142,7 @@
             return 1;
           }
         }
+        return false;
       };
       if (checkboxWifi.checked) {
         if (getClassContains('popup__feature--wifi')) {
@@ -184,7 +181,6 @@
         window.map.upload.mapPins[i + 1].classList.add('hidden');
       }
     }
-    // window.map.upload.numberPinElements();
   };
 
   var changeEventHandlerHouseType = function () {
@@ -210,6 +206,15 @@
   var pinAddHide = function () {
     for (var i = 1; i < window.map.upload.mapPins.length; i++) {
       window.map.upload.mapPins[i].classList.add('hidden');
+    }
+  };
+
+  var pinDelHide = function () {
+    for (var i = 0; i < window.map.upload.mapPins.length; i++) {
+      var typeValue = window.map.upload.mapCards[i].querySelector('.popup__type');
+      if (typeValue === houseType.value) {
+        window.map.upload.mapPins[i + 1].classList.remove('hidden');
+      }
     }
   };
 

@@ -7,10 +7,10 @@
     if (lastTimeout) {
       window.clearTimeout(lastTimeout);
     }
-    lastTimeout = window.setTimeout(callback, DEBOUNCE_TIME)
+    lastTimeout = window.setTimeout(callback, DEBOUNCE_TIME);
   };
 
   window.debounce = {
     debounce: debounce
-  }
+  };
 })();

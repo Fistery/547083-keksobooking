@@ -61,10 +61,10 @@
     var featureList = cardTemplate.querySelector('.popup__features');
     var featureElement = featureList.querySelectorAll('li');
 
-    function featureElementRemove() {
+    var featureElementRemove = function () {
       featureElement.forEach(function (item) {
         item.remove();
-      })
+      });
     };
     featureElementRemove();
 
@@ -230,7 +230,7 @@
         mapPins[i].addEventListener('click', function () {
           mapCardArr.forEach(function (item) {
             item.classList.add('hidden');
-          })
+          });
           mapCardArr[i - 1].classList.remove('hidden');
         });
       };
@@ -310,7 +310,7 @@
           pinTrue[i].classList.add('hidden');
         }
       }
-    }
+    };
     writeFivePins();
 
 
