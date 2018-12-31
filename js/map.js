@@ -33,17 +33,40 @@
       for (var i = mapPins.length - 1; i > 0; i--) {
         mapPins[i].classList.remove('hidden');
       }
+      writeFivePins();
     };
 
     if (showPins) {
       pinDelHidden();
     }
 
+    var getAddFeatures = function (arr) {
+      var newFeature = document.createElement('li');
+      newFeature.classList.add('popup__feature');
+      var featureFragment = document.createDocumentFragment();
+      arr.forEach(function (item) {
+        var featureItems = newFeature.cloneNode(true);
+        featureItems.classList.add('popup__feature--' + item);
+        featureFragment.appendChild(featureItems);
+      });
+      return featureFragment;
+    };
+
     var cardTemplate = document.querySelector('#card')
       .content
       .querySelector('.map__card');
 
     cardTemplate.classList.add('hidden');
+
+    var featureList = cardTemplate.querySelector('.popup__features');
+    var featureElement = featureList.querySelectorAll('li');
+
+    var featureElementRemove = function () {
+      featureElement.forEach(function (item) {
+        item.remove();
+      });
+    };
+    featureElementRemove();
 
     var generatedCard = function (peoples) {
       for (var i = 0; i < peoples.length; i++) {
@@ -77,7 +100,7 @@
         if (!peoples[i].offer.checkin && peoples[i].offer.checkout) {
           card.querySelector('.popup__text--time').textContent = 'Выезд до ' + peoples[i].offer.checkout;
         }
-        card.querySelector('.popup__features').textContent = peoples[i].offer.features;
+        card.querySelector('.popup__features').appendChild(getAddFeatures(peoples[i].offer.features));
         card.querySelector('.popup__description').textContent = peoples[i].offer.description;
         window.data.cardImageTemplate(card.querySelector('.popup__photos'), peoples[i].offer.photos);
 
@@ -205,6 +228,9 @@
     var оnOpen = function OnOpen() {
       var loop = function loop(i) {
         mapPins[i].addEventListener('click', function () {
+          mapCardArr.forEach(function (item) {
+            item.classList.add('hidden');
+          });
           mapCardArr[i - 1].classList.remove('hidden');
         });
       };
@@ -264,12 +290,39 @@
 
     onClickFormClearButton();
 
+    var mapCards = document.querySelectorAll('.map__card');
+
+    var numberPinElements = function () {
+      var pinHideTrue = [];
+      for (var i = 0; i < 11; i++) {
+        if (!mapPins[i].classList.contains('hidden')) {
+          pinHideTrue.push(mapPins[i]);
+        }
+      }
+      return pinHideTrue;
+    };
+
+
+    var writeFivePins = function () {
+      var pinTrue = numberPinElements();
+      for (var i = 0; i < pinTrue.length; i++) {
+        if (i > 5) {
+          pinTrue[i].classList.add('hidden');
+        }
+      }
+    };
+    writeFivePins();
+
+
     window.map.upload = {
       goodUpLoad: goodUpLoad,
-      pinDelHidden: pinDelHidden
+      pinDelHidden: pinDelHidden,
+      mapPins: mapPins,
+      mapCards: mapCards,
+      numberPinElements: numberPinElements,
+      writeFivePins: writeFivePins
     };
   };
-
 
   window.map = {
     init: init
