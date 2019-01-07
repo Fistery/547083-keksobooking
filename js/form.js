@@ -13,14 +13,28 @@
     flat: 'flat',
     house: 'house',
     palace: 'palace'
-  }
+  };
 
   var MinPrices = {
     bungalo: '0',
     flat: '1000',
     house: '5000',
     palace: '10000'
-  }
+  };
+
+  var RoomsValue = {
+    one: '1',
+    two: '2',
+    three: '3',
+    hundred: '100'
+  };
+
+  var CapacityValue = {
+    null: '0',
+    one: '1',
+    two: '2',
+    three: '3'
+  };
 
   document.addEventListener('DOMContentLoaded', function () {
     type.onchange = changeEventHandlerType;
@@ -49,20 +63,6 @@
     timeIn.value = evt.target.value;
     timeOut.value = evt.target.value;
   };
-
-  var RoomsValue = {
-    one: '1',
-    two: '2',
-    three: '3',
-    hundred: '100'
-  }
-
-  var CapacityValue = {
-    null: '0',
-    one: '1',
-    two: '2',
-    three: '3'
-  }
 
   button.addEventListener('click', function () {
     if (rooms.value === RoomsValue.one && capacity.value > CapacityValue.one) {

@@ -76,16 +76,16 @@
       } else {
         item.removeAttribute('disabled');
       }
-    })
+    });
   };
 
   var pins = function () {
     return document.querySelectorAll('.map__pin');
-  }
+  };
 
   var cards = function () {
     return document.querySelectorAll('.map__card');
-  }
+  };
 
   window.util = {
     map: map,
@@ -98,5 +98,5 @@
     disableFieldset: disableFieldset,
     pins: pins,
     cards: cards
-  }
+  };
 })();

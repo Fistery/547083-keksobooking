@@ -27,7 +27,7 @@
       var pins = window.util.pins();
       pins.forEach(function (item) {
         item.classList.remove('hidden');
-      })
+      });
       window.util.writeFivePins();
     };
 
@@ -246,7 +246,8 @@
           return true;
         }
         item.classList.add('hidden');
-      })
+        return false;
+      });
       window.util.form.reset();
       window.util.form.classList.add('ad-form--disabled');
       window.util.disableFieldset();

@@ -23,7 +23,7 @@
     one: '1',
     two: '2',
     three: '3'
-  }
+  };
 
   var HouseGuestsValue = {
     one: '1',

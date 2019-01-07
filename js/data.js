@@ -9,7 +9,7 @@
       var cardImageTemp = selectorImg.cloneNode(true);
       cardImageTemp.src = item;
       selector.appendChild(cardImageTemp);
-    })
+    });
     selectorImg.remove();
   };
 
