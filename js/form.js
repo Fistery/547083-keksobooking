@@ -1,14 +1,26 @@
 'use strict';
 (function () {
-
-  var form = document.querySelector('.ad-form');
   var rooms = document.querySelector('#room_number');
   var capacity = document.querySelector('#capacity');
-  var price = form.querySelector('#price');
-  var type = form.querySelector('#type');
+  var price = document.querySelector('#price');
+  var type = document.querySelector('#type');
   var button = document.querySelector('.ad-form__submit');
   var timeIn = document.querySelector('#timein');
   var timeOut = document.querySelector('#timeout');
+
+  var TypeNames = {
+    bungalo: 'bungalo',
+    flat: 'flat',
+    house: 'house',
+    palace: 'palace'
+  }
+
+  var MinPrices = {
+    bungalo: '0',
+    flat: '1000',
+    house: '5000',
+    palace: '10000'
+  }
 
   document.addEventListener('DOMContentLoaded', function () {
     type.onchange = changeEventHandlerType;
@@ -17,18 +29,18 @@
   }, false);
 
   var changeEventHandlerType = function () {
-    if (type.value === 'bungalo') {
-      price.placeholder = '0';
-      price.min = '0';
-    } else if (type.value === 'flat') {
-      price.placeholder = '1000';
-      price.min = '1000';
-    } else if (type.value === 'house') {
-      price.placeholder = '5000';
-      price.min = '5000';
-    } else if (type.value === 'palace') {
-      price.placeholder = '10000';
-      price.min = '10000';
+    if (type.value === TypeNames.bungalo) {
+      price.placeholder = MinPrices.bungalo;
+      price.min = MinPrices.bungalo;
+    } else if (type.value === TypeNames.flat) {
+      price.placeholder = MinPrices.flat;
+      price.min = MinPrices.flat;
+    } else if (type.value === TypeNames.house) {
+      price.placeholder = MinPrices.house;
+      price.min = MinPrices.house;
+    } else if (type.value === TypeNames.palace) {
+      price.placeholder = MinPrices.palace;
+      price.min = MinPrices.palace;
     }
   };
   changeEventHandlerType();
@@ -38,33 +50,44 @@
     timeOut.value = evt.target.value;
   };
 
+  var RoomsValue = {
+    one: '1',
+    two: '2',
+    three: '3',
+    hundred: '100'
+  }
+
+  var CapacityValue = {
+    null: '0',
+    one: '1',
+    two: '2',
+    three: '3'
+  }
+
   button.addEventListener('click', function () {
-    if (rooms.value === '1' && capacity.value > '1') {
+    if (rooms.value === RoomsValue.one && capacity.value > CapacityValue.one) {
       capacity.setCustomValidity('выберите другое количество гостей');
-    } else if (rooms.value === '1' && capacity.value === '0') {
+    } else if (rooms.value === RoomsValue.one && capacity.value === CapacityValue.null) {
       capacity.setCustomValidity('выберите другое количество гостей');
-    } else if (rooms.value === '2' && capacity.value > '2') {
+    } else if (rooms.value === RoomsValue.two && capacity.value > CapacityValue.two) {
       capacity.setCustomValidity('выберите другое количество гостей');
-    } else if (rooms.value === '2' && capacity.value === '0') {
+    } else if (rooms.value === RoomsValue.two && capacity.value === CapacityValue.null) {
       capacity.setCustomValidity('выберите другое количество гостей');
-    } else if (rooms.value === '3' && capacity.value > '3') {
+    } else if (rooms.value === RoomsValue.three && capacity.value > CapacityValue.three) {
       capacity.setCustomValidity('выберите другое количество гостей');
-    } else if (rooms.value === '3' && capacity.value === '0') {
+    } else if (rooms.value === RoomsValue.three && capacity.value === CapacityValue.null) {
       capacity.setCustomValidity('выберите другое количество гостей');
-    } else if (rooms.value === '0' && capacity.value < '100') {
+    } else if (rooms.value === RoomsValue.hundred && capacity.value > CapacityValue.null) {
       capacity.setCustomValidity('выберите другое количество гостей');
     } else {
       capacity.setCustomValidity('');
     }
   });
 
-  form.addEventListener('submit', function () {
+  window.util.form.addEventListener('submit', function () {
     event.preventDefault();
-    var formData = new FormData(form);
-    window.upload(formData, window.POST.onLoad, window.main.onError);
+    var formData = new FormData(window.util.form);
+    window.backend.upload(formData, window.backend.onLoadForm, window.main.onError);
   });
 
-  window.form = {
-    form: form
-  };
 })();
