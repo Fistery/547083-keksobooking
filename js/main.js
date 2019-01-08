@@ -6,10 +6,12 @@
     window.data.error.classList.remove('hidden');
     window.data.keyDown(window.data.error);
     window.data.documentClick(window.data.error);
+    window.form.resetForm();
   };
 
   var onLoad = function (data) {
     window.map.init(data, false);
+    window.peoples = data;
   };
 
   var loadMap = function () {

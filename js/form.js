@@ -7,6 +7,10 @@
   var button = document.querySelector('.ad-form__submit');
   var timeIn = document.querySelector('#timein');
   var timeOut = document.querySelector('#timeout');
+  var inputAdress = document.querySelector('#address');
+  var formClearButton = document.querySelector('.ad-form__reset');
+  var addressLeft = window.util.mainPin.offsetLeft + 32.5;
+  var addressTop = window.util.mainPin.offsetTop + 65;
 
   var TypeNames = {
     bungalo: 'bungalo',
@@ -84,10 +88,41 @@
     }
   });
 
+  var resetForm = function () {
+    var pins = window.util.pins();
+    var cards = window.util.cards();
+    pins.forEach(function (item) {
+      if (item.classList.contains('map__pin--main')) {
+        return true;
+      }
+      item.classList.add('hidden');
+      return false;
+    });
+    cards.forEach(function (item) {
+      item.classList.add('hidden');
+    });
+    window.util.form.reset();
+    window.util.form.classList.add('ad-form--disabled');
+    window.util.map.classList.add('map--faded');
+    window.util.disableFieldset();
+    window.util.disableSelect();
+    window.util.mainPin.style.left = 570 + 'px';
+    window.util.mainPin.style.top = 375 + 'px';
+    inputAdress.value = addressLeft + '\, ' + addressTop;
+  };
+
+  formClearButton.addEventListener('click', resetForm);
+
+
   window.util.form.addEventListener('submit', function () {
     event.preventDefault();
     var formData = new FormData(window.util.form);
     window.backend.upload(formData, window.backend.onLoadForm, window.main.onError);
   });
+
+  window.form = {
+    inputAdress: inputAdress,
+    resetForm: resetForm
+  };
 
 })();

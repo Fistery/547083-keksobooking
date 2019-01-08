@@ -62,73 +62,68 @@
     window.util.writeFivePins();
   };
 
-  var pinAddHide = function () {
-    var pins = window.util.pins();
-    for (var i = 1; i < pins.length; i++) {
-      pins[i].classList.add('hidden');
-    }
-  };
-
   houseType.onchange = changeEventHandlerHouseType;
   housePrise.onchange = changeEventHandlerPrice;
   houseRooms.onchange = changeEventHandlerRooms;
   houseGuests.onchange = changeEventHandlerGuests;
   houseFeatures.onchange = changeEventHandlerFeatures;
 
+  var houseTypeFilter = function (Type) {
+    var filterPeoples = window.peoples.filter(function (item) {
+      if (item.offer.type === Type) {
+        return true;
+      }
+      return false;
+    });
+    window.data.createAllPin(filterPeoples);
+    window.data.generatedCard(filterPeoples);
+  };
+
   var getTypeFilter = function () {
     var pins = window.util.pins();
     var cards = window.util.cards();
-    pinAddHide();
-    for (var i = 0; i < cards.length; i++) {
-      cards[i].classList.add('hidden');
-      var value = cards[i].querySelector('.popup__type');
-      if (houseType.value === 'any') {
-        window.util.pinDeleteHidden();
+    pins.forEach(function (item) {
+      if (item.classList.contains('map__pin--main')) {
+        return;
       }
-      if (houseType.value === 'palace') {
-        if (value.textContent === 'Дворец') {
-          pins[i + 1].classList.remove('hidden');
-        }
-      }
-      if (houseType.value === 'flat') {
-        if (value.textContent === 'Квартира') {
-          pins[i + 1].classList.remove('hidden');
-        }
-      }
-      if (houseType.value === 'house') {
-        if (value.textContent === 'Дом') {
-          pins[i + 1].classList.remove('hidden');
-        }
-      }
-      if (houseType.value === 'bungalo') {
-        if (value.textContent === 'Бунгало') {
-          pins[i + 1].classList.remove('hidden');
-        }
-      }
+      item.remove();
+    });
+    cards.forEach(function (item) {
+      item.remove();
+    });
+    if (houseType.value === 'any') {
+      window.map.createAllPin(window.peoples);
+      window.map.generatedCard(window.peoples);
+    }
+    if (houseType.value === 'palace') {
+      houseTypeFilter('palace');
+    }
+    if (houseType.value === 'flat') {
+      houseTypeFilter('flat');
+    }
+    if (houseType.value === 'house') {
+      houseTypeFilter('house');
+    }
+    if (houseType.value === 'bungalo') {
+      houseTypeFilter('bungalo');
     }
   };
 
   var getPriceFilter = function () {
+    getTypeFilter();
     var pins = window.util.pins();
     var cards = window.util.cards();
-    getTypeFilter();
     for (var i = 0; i < cards.length; i++) {
       var price = cards[i].querySelector('.popup__text--price').textContent;
       var NumberPrice = parseInt((price.match(/\d+/)), 10);
-      if (housePrise.value === 'low') {
-        if (NumberPrice > PriceFilterValue.low) {
-          pins[i + 1].classList.add('hidden');
-        }
+      if (housePrise.value === 'low' && NumberPrice > PriceFilterValue.low) {
+        pins[i + 1].classList.add('hidden');
       }
-      if (housePrise.value === 'middle') {
-        if (NumberPrice < PriceFilterValue.low || NumberPrice > PriceFilterValue.high) {
-          pins[i + 1].classList.add('hidden');
-        }
+      if (housePrise.value === 'middle' && (NumberPrice < PriceFilterValue.low || NumberPrice > PriceFilterValue.high)) {
+        pins[i + 1].classList.add('hidden');
       }
-      if (housePrise.value === 'high') {
-        if (NumberPrice < PriceFilterValue.high) {
-          pins[i + 1].classList.add('hidden');
-        }
+      if (housePrise.value === 'high' && NumberPrice < PriceFilterValue.high) {
+        pins[i + 1].classList.add('hidden');
       }
     }
   };
@@ -141,20 +136,14 @@
       var pins = window.util.pins();
       var rooms = cards[i].querySelector('.popup__text--capacity').textContent;
       var NumberRooms = rooms.match(/\d+/g);
-      if (houseRooms.value === HouseRoomsValue.one) {
-        if (NumberRooms[0] > NumberRoomsValue.one) {
-          pins[i + 1].classList.add('hidden');
-        }
+      if (houseRooms.value === HouseRoomsValue.one && NumberRooms[0] > NumberRoomsValue.one) {
+        pins[i + 1].classList.add('hidden');
       }
-      if (houseRooms.value === HouseRoomsValue.two) {
-        if (NumberRooms[0] > NumberRoomsValue.two && NumberRooms[0] < NumberRoomsValue.two) {
-          pins[i + 1].classList.add('hidden');
-        }
+      if (houseRooms.value === HouseRoomsValue.two && (NumberRooms[0] > NumberRoomsValue.two && NumberRooms[0] < NumberRoomsValue.two)) {
+        pins[i + 1].classList.add('hidden');
       }
-      if (houseRooms.value === HouseRoomsValue.three) {
-        if (NumberRooms[0] < NumberRoomsValue.three) {
-          pins[i + 1].classList.add('hidden');
-        }
+      if (houseRooms.value === HouseRoomsValue.three && NumberRooms[0] < NumberRoomsValue.three) {
+        pins[i + 1].classList.add('hidden');
       }
     }
   };
@@ -168,20 +157,14 @@
       var pins = window.util.pins();
       var guests = cards[i].querySelector('.popup__text--capacity').textContent;
       var NumberGuests = guests.match(/\d+/g);
-      if (houseGuests.value === HouseGuestsValue.one) {
-        if (NumberGuests[1] > NumberGuestsValue.one) {
-          pins[i + 1].classList.add('hidden');
-        }
+      if (houseGuests.value === HouseGuestsValue.one && NumberGuests[1] > NumberGuestsValue.one) {
+        pins[i + 1].classList.add('hidden');
       }
-      if (houseGuests.value === HouseGuestsValue.two) {
-        if (NumberGuests[1] > NumberGuestsValue.two && NumberGuests[1] < NumberGuestsValue.two) {
-          pins[i + 1].classList.add('hidden');
-        }
+      if (houseGuests.value === HouseGuestsValue.two && (NumberGuests[1] > NumberGuestsValue.two && NumberGuests[1] < NumberGuestsValue.two)) {
+        pins[i + 1].classList.add('hidden');
       }
-      if (houseGuests.value === HouseGuestsValue.null) {
-        if (NumberGuests[1] !== NumberGuestsValue.null) {
-          pins[i + 1].classList.add('hidden');
-        }
+      if (houseGuests.value === HouseGuestsValue.null && NumberGuests[1] !== NumberGuestsValue.null) {
+        pins[i + 1].classList.add('hidden');
       }
     }
   };
