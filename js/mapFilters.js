@@ -8,209 +8,232 @@
   var houseGuests = mapHouseFilters.querySelector('#housing-guests');
   var houseFeatures = mapHouseFilters.querySelector('#housing-features');
 
-  document.addEventListener('DOMContentLoaded', function () {
-    houseType.onchange = changeEventHandlerHouseType;
-    housePrise.onchange = changeEventHandlerPrice;
-    houseRooms.onchange = changeEventHandlerRooms;
-    houseGuests.onchange = changeEventHandlerGuests;
-    houseFeatures.onchange = changeEventHandlerFeatures;
-  }, false);
+  var PriceFilterValue = {
+    low: '10000',
+    high: '50000'
+  };
 
-  var typeFilter = function () {
-    pinAddHide();
-    for (var i = 0; i < window.map.upload.mapCards.length; i++) {
-      window.map.upload.mapCards[i].classList.add('hidden');
-      var value = window.map.upload.mapCards[i].querySelector('.popup__type');
-      if (houseType.value === 'any') {
-        window.map.upload.pinDelHidden();
+  var HouseRoomsValue = {
+    one: '1',
+    two: '2',
+    three: '3'
+  };
+
+  var NumberRoomsValue = {
+    one: '1',
+    two: '2',
+    three: '3'
+  };
+
+  var HouseGuestsValue = {
+    one: '1',
+    two: '2',
+    null: '0'
+  };
+
+  var NumberGuestsValue = {
+    one: '1',
+    two: '2',
+    null: 'Не для гостей'
+  };
+
+  var changeEventHandlerHouseType = function () {
+    window.util.debounce(getTypeFilter());
+    window.util.writeFivePins();
+  };
+
+  var changeEventHandlerPrice = function () {
+    window.util.debounce(getPriceFilter());
+    window.util.writeFivePins();
+  };
+
+  var changeEventHandlerRooms = function () {
+    window.util.debounce(getRoomsFilter());
+    window.util.writeFivePins();
+  };
+
+  var changeEventHandlerGuests = function () {
+    window.util.debounce(getGuestsFilter());
+    window.util.writeFivePins();
+  };
+
+  var changeEventHandlerFeatures = function () {
+    window.util.debounce(getFeaturesFilter());
+    window.util.writeFivePins();
+  };
+
+  houseType.onchange = changeEventHandlerHouseType;
+  housePrise.onchange = changeEventHandlerPrice;
+  houseRooms.onchange = changeEventHandlerRooms;
+  houseGuests.onchange = changeEventHandlerGuests;
+  houseFeatures.onchange = changeEventHandlerFeatures;
+
+  var houseTypeFilter = function (Type) {
+    var filterPeoples = window.peoples.filter(function (item) {
+      if (item.offer.type === Type) {
+        return true;
       }
-      if (houseType.value === 'palace') {
-        if (value.textContent === 'Дворец') {
-          window.map.upload.mapPins[i + 1].classList.remove('hidden');
-        }
+      return false;
+    });
+    window.data.createAllPin(filterPeoples);
+    window.data.generatedCard(filterPeoples);
+  };
+
+  var getTypeFilter = function () {
+    var pins = window.util.pins();
+    var cards = window.util.cards();
+    pins.forEach(function (item) {
+      if (item.classList.contains('map__pin--main')) {
+        return;
       }
-      if (houseType.value === 'flat') {
-        if (value.textContent === 'Квартира') {
-          window.map.upload.mapPins[i + 1].classList.remove('hidden');
-        }
-      }
-      if (houseType.value === 'house') {
-        if (value.textContent === 'Дом') {
-          window.map.upload.mapPins[i + 1].classList.remove('hidden');
-        }
-      }
-      if (houseType.value === 'bungalo') {
-        if (value.textContent === 'Бунгало') {
-          window.map.upload.mapPins[i + 1].classList.remove('hidden');
-        }
-      }
+      item.remove();
+    });
+    cards.forEach(function (item) {
+      item.remove();
+    });
+    if (houseType.value === 'any') {
+      window.map.createAllPin(window.peoples);
+      window.map.generatedCard(window.peoples);
+    }
+    if (houseType.value === 'palace') {
+      houseTypeFilter('palace');
+    }
+    if (houseType.value === 'flat') {
+      houseTypeFilter('flat');
+    }
+    if (houseType.value === 'house') {
+      houseTypeFilter('house');
+    }
+    if (houseType.value === 'bungalo') {
+      houseTypeFilter('bungalo');
     }
   };
 
-  var priceFilter = function () {
-    typeFilter();
-    for (var i = 0; i < window.map.upload.mapCards.length; i++) {
-      var price = window.map.upload.mapCards[i].querySelector('.popup__text--price').textContent;
+  var getPriceFilter = function () {
+    getTypeFilter();
+    var pins = window.util.pins();
+    var cards = window.util.cards();
+    for (var i = 0; i < cards.length; i++) {
+      var price = cards[i].querySelector('.popup__text--price').textContent;
       var NumberPrice = parseInt((price.match(/\d+/)), 10);
-      if (housePrise.value === 'low') {
-        if (NumberPrice > 10000) {
-          window.map.upload.mapPins[i + 1].classList.add('hidden');
-        }
+      if (housePrise.value === 'low' && NumberPrice > PriceFilterValue.low) {
+        pins[i + 1].classList.add('hidden');
       }
-      if (housePrise.value === 'middle') {
-        if (NumberPrice < 10000 || NumberPrice > 50000) {
-          window.map.upload.mapPins[i + 1].classList.add('hidden');
-        }
+      if (housePrise.value === 'middle' && (NumberPrice < PriceFilterValue.low || NumberPrice > PriceFilterValue.high)) {
+        pins[i + 1].classList.add('hidden');
       }
-      if (housePrise.value === 'high') {
-        if (NumberPrice < 50000) {
-          window.map.upload.mapPins[i + 1].classList.add('hidden');
-        }
+      if (housePrise.value === 'high' && NumberPrice < PriceFilterValue.high) {
+        pins[i + 1].classList.add('hidden');
       }
     }
   };
 
-  var roomsFilter = function () {
-    typeFilter();
-    priceFilter();
-    for (var i = 0; i < window.map.upload.mapCards.length; i++) {
-      var rooms = window.map.upload.mapCards[i].querySelector('.popup__text--capacity').textContent;
+  var getRoomsFilter = function () {
+    getTypeFilter();
+    getPriceFilter();
+    var cards = window.util.cards();
+    for (var i = 0; i < cards.length; i++) {
+      var pins = window.util.pins();
+      var rooms = cards[i].querySelector('.popup__text--capacity').textContent;
       var NumberRooms = rooms.match(/\d+/g);
-      if (houseRooms.value === '1') {
-        if (NumberRooms[0] > '1') {
-          window.map.upload.mapPins[i + 1].classList.add('hidden');
-        }
+      if (houseRooms.value === HouseRoomsValue.one && NumberRooms[0] > NumberRoomsValue.one) {
+        pins[i + 1].classList.add('hidden');
       }
-      if (houseRooms.value === '2') {
-        if (NumberRooms[0] > '2' && NumberRooms[0] < '2') {
-          window.map.upload.mapPins[i + 1].classList.add('hidden');
-        }
+      if (houseRooms.value === HouseRoomsValue.two && (NumberRooms[0] > NumberRoomsValue.two && NumberRooms[0] < NumberRoomsValue.two)) {
+        pins[i + 1].classList.add('hidden');
       }
-      if (houseRooms.value === '3') {
-        if (NumberRooms[0] < '3') {
-          window.map.upload.mapPins[i + 1].classList.add('hidden');
-        }
+      if (houseRooms.value === HouseRoomsValue.three && NumberRooms[0] < NumberRoomsValue.three) {
+        pins[i + 1].classList.add('hidden');
       }
     }
   };
 
-  var guestsFilter = function () {
-    typeFilter();
-    priceFilter();
-    roomsFilter();
-    for (var i = 0; i < window.map.upload.mapCards.length; i++) {
-      var guests = window.map.upload.mapCards[i].querySelector('.popup__text--capacity').textContent;
+  var getGuestsFilter = function () {
+    getTypeFilter();
+    getPriceFilter();
+    getRoomsFilter();
+    var cards = window.util.cards();
+    for (var i = 0; i < cards.length; i++) {
+      var pins = window.util.pins();
+      var guests = cards[i].querySelector('.popup__text--capacity').textContent;
       var NumberGuests = guests.match(/\d+/g);
-      if (houseGuests.value === '1') {
-        if (NumberGuests[1] > '1') {
-          window.map.upload.mapPins[i + 1].classList.add('hidden');
-        }
+      if (houseGuests.value === HouseGuestsValue.one && NumberGuests[1] > NumberGuestsValue.one) {
+        pins[i + 1].classList.add('hidden');
       }
-      if (houseGuests.value === '2') {
-        if (NumberGuests[1] > '2' && NumberGuests[1] < '2') {
-          window.map.upload.mapPins[i + 1].classList.add('hidden');
-        }
+      if (houseGuests.value === HouseGuestsValue.two && (NumberGuests[1] > NumberGuestsValue.two && NumberGuests[1] < NumberGuestsValue.two)) {
+        pins[i + 1].classList.add('hidden');
       }
-      if (houseGuests.value === '0') {
-        if (NumberGuests[1] !== 'Не для гостей') {
-          window.map.upload.mapPins[i + 1].classList.add('hidden');
-        }
+      if (houseGuests.value === HouseGuestsValue.null && NumberGuests[1] !== NumberGuestsValue.null) {
+        pins[i + 1].classList.add('hidden');
       }
     }
   };
 
-  var featuresFilter = function () {
-    typeFilter();
-    priceFilter();
-    roomsFilter();
-    guestsFilter();
+  var getFeaturesFilter = function () {
+    getTypeFilter();
+    getPriceFilter();
+    getRoomsFilter();
+    getGuestsFilter();
     var checkboxWifi = houseFeatures.querySelector('#filter-wifi');
     var checkboxDishwasher = houseFeatures.querySelector('#filter-dishwasher');
     var checkboxParking = houseFeatures.querySelector('#filter-parking');
     var checkboxWasher = houseFeatures.querySelector('#filter-washer');
     var checkboxElevator = houseFeatures.querySelector('#filter-elevator');
     var checkboxConditioner = houseFeatures.querySelector('#filter-conditioner');
+    var cards = window.util.cards();
 
-    for (var i = 0; i < window.map.upload.mapCards.length; i++) {
-      var cardFeauturesList = window.map.upload.mapCards[i]
+
+    for (var i = 0; i < cards.length; i++) {
+      var cardFeauturesList = cards[i]
         .querySelector('.popup__features')
         .querySelectorAll('.popup__feature');
+      var pins = window.util.pins();
 
       var getClassContains = function (className) {
         for (var j = 0; j < cardFeauturesList.length; j++) {
           if (cardFeauturesList[j].classList.contains(className)) {
-            return 1;
+            return true;
           }
         }
         return false;
       };
+
       if (checkboxWifi.checked) {
         if (getClassContains('popup__feature--wifi')) {
           continue;
         }
-        window.map.upload.mapPins[i + 1].classList.add('hidden');
+        pins[i + 1].classList.add('hidden');
       }
       if (checkboxDishwasher.checked) {
         if (getClassContains('popup__feature--dishwasher')) {
           continue;
         }
-        window.map.upload.mapPins[i + 1].classList.add('hidden');
+        pins[i + 1].classList.add('hidden');
       }
       if (checkboxParking.checked) {
         if (getClassContains('popup__feature--parking')) {
           continue;
         }
-        window.map.upload.mapPins[i + 1].classList.add('hidden');
+        pins[i + 1].classList.add('hidden');
       }
       if (checkboxWasher.checked) {
         if (getClassContains('popup__feature--washer')) {
           continue;
         }
-        window.map.upload.mapPins[i + 1].classList.add('hidden');
+        pins[i + 1].classList.add('hidden');
       }
       if (checkboxElevator.checked) {
         if (getClassContains('popup__feature--elevator')) {
           continue;
         }
-        window.map.upload.mapPins[i + 1].classList.add('hidden');
+        pins[i + 1].classList.add('hidden');
       }
       if (checkboxConditioner.checked) {
         if (getClassContains('popup__feature--conditioner')) {
           continue;
         }
-        window.map.upload.mapPins[i + 1].classList.add('hidden');
+        pins[i + 1].classList.add('hidden');
       }
-    }
-  };
-
-  var changeEventHandlerHouseType = function () {
-    window.debounce.debounce(typeFilter());
-    window.map.upload.writeFivePins();
-  };
-
-  var changeEventHandlerPrice = function () {
-    window.debounce.debounce(priceFilter());
-    window.map.upload.writeFivePins();
-  };
-
-  var changeEventHandlerRooms = function () {
-    window.debounce.debounce(roomsFilter());
-    window.map.upload.writeFivePins();
-  };
-
-  var changeEventHandlerGuests = function () {
-    window.debounce.debounce(guestsFilter());
-    window.map.upload.writeFivePins();
-  };
-
-  var changeEventHandlerFeatures = function () {
-    window.debounce.debounce(featuresFilter());
-    window.map.upload.writeFivePins();
-  };
-
-  var pinAddHide = function () {
-    for (var i = 1; i < window.map.upload.mapPins.length; i++) {
-      window.map.upload.mapPins[i].classList.add('hidden');
     }
   };
 
