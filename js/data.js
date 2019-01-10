@@ -44,6 +44,9 @@
       return;
     }
     for (var i = 0; i < peoples.length; i++) {
+      if (i === 5) {
+        return;
+      }
       var authorPinTemplate = authorPin.cloneNode(true);
       authorPinTemplate.querySelector('img').src = peoples[i].author.avatar;
       authorPinTemplate.querySelector('img').alt = peoples[i].offer.title;
@@ -53,14 +56,6 @@
       mapPinTemplate.appendChild(authorPinTemplate);
     }
     оnOpen();
-  };
-
-  var pinDeleteHidden = function () {
-    var pins = window.util.pins();
-    pins.forEach(function (item) {
-      item.classList.remove('hidden');
-    });
-    window.util.writeFivePins();
   };
 
   var getAddFeatures = function (arr) {
@@ -95,6 +90,10 @@
     for (var i = 0; i < peoples.length; i++) {
       if (!peoples[i].offer) {
         continue;
+      }
+
+      if (i === 5) {
+        return;
       }
 
       var card = cardTemplate.cloneNode(true);
@@ -194,7 +193,6 @@
     error: error,
     documentClick: documentClick,
     generatedCard: generatedCard,
-    createAllPin: createAllPin,
-    pinDeleteHidden: pinDeleteHidden
+    createAllPin: createAllPin
   };
 })();
