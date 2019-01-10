@@ -16,7 +16,6 @@
       window.util.form.classList.remove('ad-form--disabled');
       window.data.createAllPin(data);
       window.data.generatedCard(data);
-      window.data.pinDeleteHidden();
       window.util.disableSelect();
       window.util.disableFieldset();
 

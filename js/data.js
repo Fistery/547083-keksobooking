@@ -40,10 +40,13 @@
   var mapPinTemplate = document.querySelector('.map__pins');
 
   var createAllPin = function (peoples) {
-    if (document.querySelectorAll('.map__pin').length > 1) {
+    if (document.querySelectorAll('.map__pin').length > 2) {
       return;
     }
     for (var i = 0; i < peoples.length; i++) {
+      if (i > 4) {
+        continue;
+      }
       var authorPinTemplate = authorPin.cloneNode(true);
       authorPinTemplate.querySelector('img').src = peoples[i].author.avatar;
       authorPinTemplate.querySelector('img').alt = peoples[i].offer.title;
@@ -53,14 +56,6 @@
       mapPinTemplate.appendChild(authorPinTemplate);
     }
     оnOpen();
-  };
-
-  var pinDeleteHidden = function () {
-    var pins = window.util.pins();
-    pins.forEach(function (item) {
-      item.classList.remove('hidden');
-    });
-    window.util.writeFivePins();
   };
 
   var getAddFeatures = function (arr) {
@@ -92,9 +87,16 @@
   featureElementRemove();
 
   var generatedCard = function (peoples) {
+    if (document.querySelectorAll('.map__card').length > 4) {
+      return;
+    }
     for (var i = 0; i < peoples.length; i++) {
       if (!peoples[i].offer) {
         continue;
+      }
+
+      if (i > 4) {
+        return;
       }
 
       var card = cardTemplate.cloneNode(true);
@@ -194,7 +196,6 @@
     error: error,
     documentClick: documentClick,
     generatedCard: generatedCard,
-    createAllPin: createAllPin,
-    pinDeleteHidden: pinDeleteHidden
+    createAllPin: createAllPin
   };
 })();

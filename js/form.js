@@ -95,11 +95,11 @@
       if (item.classList.contains('map__pin--main')) {
         return true;
       }
-      item.classList.add('hidden');
+      item.remove();
       return false;
     });
     cards.forEach(function (item) {
-      item.classList.add('hidden');
+      item.remove();
     });
     window.util.form.reset();
     window.util.form.classList.add('ad-form--disabled');

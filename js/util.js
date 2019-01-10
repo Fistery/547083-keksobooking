@@ -18,33 +18,6 @@
     lastTimeout = window.setTimeout(cb, DEBOUNCE_TIME);
   };
 
-  var numberPinElements = function () {
-    var pins = document.querySelectorAll('.map__pin');
-    var pinHideTrue = [];
-    for (var i = 0; i < pins.length; i++) {
-      if (!pins[i].classList.contains('hidden')) {
-        pinHideTrue.push(pins[i]);
-      }
-    }
-    return pinHideTrue;
-  };
-
-
-  var writeFivePins = function () {
-    var pinTrue = numberPinElements();
-    for (var i = 6; i < pinTrue.length; i++) {
-      pinTrue[i].classList.add('hidden');
-    }
-  };
-
-  var pinDeleteHidden = function () {
-    var pins = document.querySelectorAll('.map__pin');
-    for (var i = pins.length - 1; i > 0; i--) {
-      pins[i].classList.remove('hidden');
-    }
-    window.util.writeFivePins();
-  };
-
   var deleteCard = function () {
     var cards = document.querySelectorAll('.map__card');
     cards.forEach(function (item) {
@@ -104,8 +77,6 @@
     form: form,
     debounce: debounce,
     mainPin: mainPin,
-    writeFivePins: writeFivePins,
-    pinDeleteHidden: pinDeleteHidden,
     goodUpLoad: goodUpLoad,
     disableFieldset: disableFieldset,
     pins: pins,
