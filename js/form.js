@@ -9,7 +9,7 @@
   var housePrice = document.querySelector('#price');
   var houseType = document.querySelector('#type');
   var submitButton = document.querySelector('.ad-form__submit');
-  var timeInInput = document.querySelector('input[name=address]');
+  var timeInInput = document.querySelector('#timein');
   var timeOutInput = document.querySelector('#timeout');
   var formClearButton = document.querySelector('.ad-form__reset');
   var adressInput = document.querySelector('#address');
