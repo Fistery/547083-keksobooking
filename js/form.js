@@ -68,8 +68,8 @@
 
 
   var onChangeTime = function (evt) {
-    timeIn.value = evt.target.value;
-    timeOut.value = evt.target.value;
+    timeInInput.value = evt.target.value;
+    timeOutInput.value = evt.target.value;
   };
 
   submitButton.addEventListener('click', function () {
@@ -105,7 +105,7 @@
     window.util.disableSelect();
     window.util.mainPin.style.left = MAINPIN_LEFT_POSITION + 'px';
     window.util.mainPin.style.top = MAINPIN_TOP_POSITION + 'px';
-    adressInput.setAttribute('value', addressLeft + '\, ' + addressTop)
+    adressInput.setAttribute('value', addressLeft + '\, ' + addressTop);
     window.loadPhotos.removeUpload();
   };
 

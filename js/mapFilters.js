@@ -89,63 +89,63 @@
       if (houseType.value === 'any' || item.offer.type === type) {
         return true;
       }
-        return false;
+      return false;
     })
-      .filter(function (item) {
-        if (housePrise.value === 'any') {
-          return true;
-        } else if (housePrise.value === 'low' && item.offer.price < PriceFilterValue.low) {
-          return true;
-        } else if (housePrise.value === 'middle' && (item.offer.price >= PriceFilterValue.low || item.offer.price <= PriceFilterValue.high)) {
-          return true;
-        } else if (housePrise.value === 'high' && item.offer.price >= PriceFilterValue.high) {
-          return true;
-        }
-          return false;
-      })
-      .filter(function (item) {
-        if (houseRooms.value === 'any') {
-          return true;
-        } else if (houseRooms.value === HouseRoomsValue.one && item.offer.rooms === NumberRoomsValue.one) {
-          return true;
-        } else if (houseRooms.value === HouseRoomsValue.two && item.offer.rooms === NumberRoomsValue.two) {
-          return true;
-        } else if (houseRooms.value === HouseRoomsValue.three && item.offer.rooms === NumberRoomsValue.three) {
-          return true;
-        }
-          return false;
-      })
-      .filter(function (item) {
-        if (houseGuests.value === 'any') {
-          return true;
-        } else if (houseGuests.value === HouseGuestsValue.one && item.offer.guests === NumberGuestsValue.one) {
-          return true;
-        } else if (houseGuests.value === HouseGuestsValue.two && item.offer.guests === NumberGuestsValue.two) {
-          return true;
-        } else if (houseGuests.value === HouseGuestsValue.zero && item.offer.guests === NumberGuestsValue.zero) {
-          return true;
-        }
-          return false;
-      })
-      .filter(function (item) {
-        if (checkboxWifi.checked && item.offer.features.indexOf(Features.wifi) > -1) {
-          return true;
-        } else if (checkboxDishwasher.checked && item.offer.features.indexOf(Features.dishwasher) > -1) {
-          return true;
-        } else if (checkboxParking.checked && item.offer.features.indexOf(Features.parking) > -1) {
-          return true;
-        } else if (checkboxWasher.checked && item.offer.features.indexOf(Features.washer) > -1) {
-          return true;
-        } else if (checkboxElevator.checked && item.offer.features.indexOf(Features.elevator) > -1) {
-          return true;
-        } else if (checkboxConditioner.checked && item.offer.features.indexOf(Features.conditioner) > -1) {
-          return true;
-        } else if (!checkboxWifi.checked && !checkboxDishwasher.checked && !checkboxParking.checked &&
-          !checkboxWasher.checked && !checkboxElevator.checked && !checkboxConditioner.checked) {
-          return true;
-        }
-        return false;
-      });
+    .filter(function (item) {
+      if (housePrise.value === 'any') {
+        return true;
+      } else if (housePrise.value === 'low' && item.offer.price < PriceFilterValue.low) {
+        return true;
+      } else if (housePrise.value === 'middle' && (item.offer.price >= PriceFilterValue.low || item.offer.price <= PriceFilterValue.high)) {
+        return true;
+      } else if (housePrise.value === 'high' && item.offer.price >= PriceFilterValue.high) {
+        return true;
+      }
+      return false;
+    })
+    .filter(function (item) {
+      if (houseRooms.value === 'any') {
+        return true;
+      } else if (houseRooms.value === HouseRoomsValue.one && item.offer.rooms === NumberRoomsValue.one) {
+        return true;
+      } else if (houseRooms.value === HouseRoomsValue.two && item.offer.rooms === NumberRoomsValue.two) {
+        return true;
+      } else if (houseRooms.value === HouseRoomsValue.three && item.offer.rooms === NumberRoomsValue.three) {
+        return true;
+      }
+      return false;
+    })
+    .filter(function (item) {
+      if (houseGuests.value === 'any') {
+        return true;
+      } else if (houseGuests.value === HouseGuestsValue.one && item.offer.guests === NumberGuestsValue.one) {
+        return true;
+      } else if (houseGuests.value === HouseGuestsValue.two && item.offer.guests === NumberGuestsValue.two) {
+        return true;
+      } else if (houseGuests.value === HouseGuestsValue.zero && item.offer.guests === NumberGuestsValue.zero) {
+        return true;
+      }
+      return false;
+    })
+    .filter(function (item) {
+      if (checkboxWifi.checked && item.offer.features.indexOf(Features.wifi) > -1) {
+        return true;
+      } else if (checkboxDishwasher.checked && item.offer.features.indexOf(Features.dishwasher) > -1) {
+        return true;
+      } else if (checkboxParking.checked && item.offer.features.indexOf(Features.parking) > -1) {
+        return true;
+      } else if (checkboxWasher.checked && item.offer.features.indexOf(Features.washer) > -1) {
+        return true;
+      } else if (checkboxElevator.checked && item.offer.features.indexOf(Features.elevator) > -1) {
+        return true;
+      } else if (checkboxConditioner.checked && item.offer.features.indexOf(Features.conditioner) > -1) {
+        return true;
+      } else if (!checkboxWifi.checked && !checkboxDishwasher.checked && !checkboxParking.checked &&
+        !checkboxWasher.checked && !checkboxElevator.checked && !checkboxConditioner.checked) {
+        return true;
+      }
+      return false;
+    });
 
     window.data.createAllPin(filterPeoples);
     window.data.generatedCard(filterPeoples);

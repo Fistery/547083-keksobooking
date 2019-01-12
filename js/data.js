@@ -86,7 +86,7 @@
   };
   featureElementRemove();
 
-  var getOfferType = function ( type) {
+  var getOfferType = function (type) {
     if (type === 'palace') {
       return 'Дворец';
     } else if (type === 'flat') {
@@ -96,6 +96,7 @@
     } else if (type === 'bungalo') {
       return 'Бунгало';
     }
+    return false;
   };
 
   var generatedCard = function (peoples) {

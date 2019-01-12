@@ -26,17 +26,17 @@
 
   var removeUpload = function () {
     var images = document.querySelectorAll('.form__photo');
-    var userAvatar = document.querySelector('.ad-form-header__preview > img');
-    userAvatar.remove();
+    var userAvatarImage = document.querySelector('.ad-form-header__preview > img');
+    userAvatarImage.remove();
     images.forEach(function (item) {
       item.remove();
     });
     var image = document.createElement('img');
-    var userAvatar = image.cloneNode(true);
-    avatarContainer.appendChild(userAvatar);
-    userAvatar.src = avatarDefaultSrc;
-    userAvatar.style.width = AVATAR_WIDTH + 'px';
-    userAvatar.style.height = AVATAR_HEIGHT + 'px';
+    var avatar = image.cloneNode(true);
+    avatarContainer.appendChild(avatar);
+    avatar.src = avatarDefaultSrc;
+    avatar.style.width = AVATAR_WIDTH + 'px';
+    avatar.style.height = AVATAR_HEIGHT + 'px';
   };
 
   var getReaderResult = function (input, cont, paint, width, height, margin) {
@@ -83,5 +83,5 @@
 
   window.loadPhotos = {
     removeUpload: removeUpload
-  }
+  };
 })();

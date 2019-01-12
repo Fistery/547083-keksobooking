@@ -16,7 +16,7 @@
     var onPostLoad = function (data) {
       window.map.init(data, true);
     };
-    window.backend.load('GET','https://js.dump.academy/keksobooking/data', onPostLoad, onError);
+    window.backend.load('GET', 'https://js.dump.academy/keksobooking/data', onPostLoad, onError);
   };
 
   window.backend.load('GET', 'https://js.dump.academy/keksobooking/data', onLoad, onError);

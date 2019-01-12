@@ -63,7 +63,7 @@
     pins.forEach(function (item) {
       item.remove();
     });
-  }
+  };
 
   window.util = {
     map: map,
