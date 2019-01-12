@@ -2,63 +2,86 @@
 
 (function () {
   var TYPE_FILES = ['gif', 'jpg', 'jpeg', 'png'];
+  var AVATAR_WIDTH = 40;
+  var AVATAR_HEIGHT = 40;
+  var AVATAR_MARGIN = 'auto';
+  var ROOMS_PHOTO_WIDTH = 60;
+  var ROOMS_PHOTO_HEIGHT = 60;
+  var ROOMS_PHOTO_MARGIN = 5;
   var inputFileAvatar = document.querySelector('#avatar');
   var userAvatar = document.querySelector('.ad-form-header__preview > img');
-
-  inputFileAvatar.addEventListener('change', function () {
-    var file = inputFileAvatar.files[0];
-    var fileName = file.name.toLowerCase();
-
-    var matches = TYPE_FILES.some(function (it) {
-      return fileName.endsWith(it);
-    });
-
-    if (matches) {
-      var reader = new FileReader();
-
-      reader.addEventListener('load', function () {
-        userAvatar.src = reader.result;
-      });
-
-      reader.readAsDataURL(file);
-    }
-  });
+  var avatarContainer = document.querySelector('.ad-form-header__preview');
+  var avatarDefaultSrc = 'img/muffin-grey.svg';
 
   var inputFilePhotos = document.querySelector('#images');
   var photoContainer = document.querySelector('.ad-form__photo-container');
   var userPhotos = document.querySelector('.ad-form__photo');
 
-  var photoRooms = function (address) {
-    var photoImage = document.createElement('img');
-    var photo = userPhotos.cloneNode(true);
-    var photoItem = photoImage.cloneNode(true);
-    photoContainer.appendChild(photo);
-    photo.appendChild(photoItem);
-    photoItem.style.width = 60 + 'px';
-    photoItem.style.height = 60 + 'px';
-    photoItem.style.margin = 5 + 'px' + ' ' + 5 + 'px';
-    photoItem.style.objectFit = 'contain';
-    photoItem.src = address;
-  };
-  userPhotos.remove();
-
-  inputFilePhotos.addEventListener('change', function () {
-    var file = inputFilePhotos.files[0];
-    var fileName = file.name.toLowerCase();
-
-    var matches = TYPE_FILES.some(function (it) {
-      return fileName.endsWith(it);
+  var deleteImages = function (cont) {
+    var images = cont.querySelectorAll('img');
+    images.forEach(function (item) {
+      item.remove();
     });
+  };
 
-    if (matches) {
-      var reader = new FileReader();
+  var removeUpload = function () {
+    var images = document.querySelectorAll('.form__photo');
+    var userAvatar = document.querySelector('.ad-form-header__preview > img');
+    userAvatar.remove();
+    images.forEach(function (item) {
+      item.remove();
+    });
+    var image = document.createElement('img');
+    var userAvatar = image.cloneNode(true);
+    avatarContainer.appendChild(userAvatar);
+    userAvatar.src = avatarDefaultSrc;
+    userAvatar.style.width = AVATAR_WIDTH + 'px';
+    userAvatar.style.height = AVATAR_HEIGHT + 'px';
+  };
 
-      reader.addEventListener('load', function () {
-        photoRooms(reader.result);
-      });
-
-      reader.readAsDataURL(file);
+  var getReaderResult = function (input, cont, paint, width, height, margin) {
+    if (cont.querySelectorAll('img')) {
+      deleteImages(cont);
     }
+    var file = input.files;
+
+    var getPhotoRooms = function (address) {
+      var photoImage = document.createElement('img');
+      var photoItem = photoImage.cloneNode(true);
+      cont.appendChild(photoItem);
+      photoItem.classList.add('form__photo');
+      photoItem.style.width = width + 'px';
+      photoItem.style.height = height + 'px';
+      photoItem.style.margin = margin + 'px' + ' ' + margin + 'px';
+      photoItem.src = address;
+    };
+
+    for (var i = 0; i < file.length; i++) {
+      var fileName = file[i].name.toLowerCase();
+      var matches = TYPE_FILES.some(function (it) {
+        return fileName.endsWith(it);
+      });
+      if (matches) {
+        var reader = new FileReader();
+
+        reader.onload = function (evt) {
+          getPhotoRooms(evt.target.result);
+        };
+        reader.readAsDataURL(file[i]);
+      }
+    }
+    paint.remove();
+  };
+
+  inputFileAvatar.addEventListener('change', function () {
+    getReaderResult(inputFileAvatar, avatarContainer, userAvatar, AVATAR_WIDTH, AVATAR_HEIGHT, AVATAR_MARGIN);
   });
 
+  inputFilePhotos.addEventListener('change', function () {
+    getReaderResult(inputFilePhotos, photoContainer, userPhotos, ROOMS_PHOTO_WIDTH, ROOMS_PHOTO_HEIGHT, ROOMS_PHOTO_MARGIN);
+  });
+
+  window.loadPhotos = {
+    removeUpload: removeUpload
+  }
 })();

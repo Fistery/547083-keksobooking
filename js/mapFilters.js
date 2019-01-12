@@ -35,13 +35,13 @@
   var HouseGuestsValue = {
     one: '1',
     two: '2',
-    null: '0'
+    zero: '0'
   };
 
   var NumberGuestsValue = {
     one: 1,
     two: 2,
-    null: 'Не для гостей'
+    zero: 'Не для гостей'
   };
 
   var Features = {
@@ -53,52 +53,43 @@
     conditioner: 'conditioner'
   };
 
-  var changeEventHandlerHouseType = function () {
-    window.util.debounce(houseTypeFilter(houseType.value));
+  var onChangeHouseType = function () {
+    window.util.debounce(houseTypeFilterPreform(houseType.value));
   };
 
-  var changeEventHandlerPrice = function () {
-    window.util.debounce(houseTypeFilter(houseType.value));
+  var onChangeHousePrice = function () {
+    window.util.debounce(houseTypeFilterPreform(houseType.value));
   };
 
-  var changeEventHandlerRooms = function () {
-    window.util.debounce(houseTypeFilter(houseType.value));
+  var onChangeHouseRooms = function () {
+    window.util.debounce(houseTypeFilterPreform(houseType.value));
   };
 
-  var changeEventHandlerGuests = function () {
-    window.util.debounce(houseTypeFilter(houseType.value));
+  var onChangeHouseGuests = function () {
+    window.util.debounce(houseTypeFilterPreform(houseType.value));
   };
 
-  var changeEventHandlerFeatures = function () {
-    window.util.debounce(houseTypeFilter(houseType.value));
+  var onChangeHouseFeatures = function () {
+    window.util.debounce(houseTypeFilterPreform(houseType.value));
   };
 
-  houseType.onchange = changeEventHandlerHouseType;
-  housePrise.onchange = changeEventHandlerPrice;
-  houseRooms.onchange = changeEventHandlerRooms;
-  houseGuests.onchange = changeEventHandlerGuests;
-  houseFeatures.onchange = changeEventHandlerFeatures;
+  houseType.onchange = onChangeHouseType;
+  housePrise.onchange = onChangeHousePrice;
+  houseRooms.onchange = onChangeHouseRooms;
+  houseGuests.onchange = onChangeHouseGuests;
+  houseFeatures.onchange = onChangeHouseFeatures;
 
-  var houseTypeFilter = function (Type) {
-    var pins = window.util.pins();
-    var cards = window.util.cards();
-    pins.forEach(function (item) {
-      if (item.classList.contains('map__pin--main')) {
-        return;
-      }
-      item.remove();
-    });
+  var houseTypeFilterPreform = function (type) {
+    window.util.deletePins();
+    var cards = window.util.getCards();
     cards.forEach(function (item) {
       item.remove();
     });
     var filterPeoples = window.peoples.filter(function (item) {
-      if (houseType.value === 'any') {
+      if (houseType.value === 'any' || item.offer.type === type) {
         return true;
-      } else if (item.offer.type === Type) {
-        return true;
-      } else {
-        return false;
       }
+        return false;
     })
       .filter(function (item) {
         if (housePrise.value === 'any') {
@@ -109,9 +100,8 @@
           return true;
         } else if (housePrise.value === 'high' && item.offer.price >= PriceFilterValue.high) {
           return true;
-        } else {
-          return false;
         }
+          return false;
       })
       .filter(function (item) {
         if (houseRooms.value === 'any') {
@@ -122,9 +112,8 @@
           return true;
         } else if (houseRooms.value === HouseRoomsValue.three && item.offer.rooms === NumberRoomsValue.three) {
           return true;
-        } else {
-          return false;
         }
+          return false;
       })
       .filter(function (item) {
         if (houseGuests.value === 'any') {
@@ -133,11 +122,10 @@
           return true;
         } else if (houseGuests.value === HouseGuestsValue.two && item.offer.guests === NumberGuestsValue.two) {
           return true;
-        } else if (houseGuests.value === HouseGuestsValue.null && item.offer.guests === NumberGuestsValue.null) {
+        } else if (houseGuests.value === HouseGuestsValue.zero && item.offer.guests === NumberGuestsValue.zero) {
           return true;
-        } else {
-          return false;
         }
+          return false;
       })
       .filter(function (item) {
         if (checkboxWifi.checked && item.offer.features.indexOf(Features.wifi) > -1) {
@@ -155,9 +143,8 @@
         } else if (!checkboxWifi.checked && !checkboxDishwasher.checked && !checkboxParking.checked &&
           !checkboxWasher.checked && !checkboxElevator.checked && !checkboxConditioner.checked) {
           return true;
-        } else {
-          return false;
         }
+        return false;
       });
 
     window.data.createAllPin(filterPeoples);

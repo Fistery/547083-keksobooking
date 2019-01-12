@@ -1,14 +1,11 @@
 'use strict';
 
 (function () {
+  var DEBOUNCE_TIME = 500;
   var map = document.querySelector('.map');
   var form = document.querySelector('.ad-form');
   var mainPin = document.querySelector('.map__pin--main');
   var mapFilters = document.querySelector('.map__filters');
-  var selectFilters = mapFilters.querySelectorAll('select');
-  var fieldsetFilters = mapFilters.querySelector('fieldset');
-
-  var DEBOUNCE_TIME = 500;
 
   var debounce = function (cb) {
     var lastTimeout = null;
@@ -37,40 +34,36 @@
   var disableFieldset = function () {
     var formFieldsets = form.querySelectorAll('fieldset');
     formFieldsets.forEach(function (item) {
-
-      if (form.classList.contains('ad-form--disabled')) {
-        item.setAttribute('disabled', true);
-      } else {
-        item.removeAttribute('disabled');
-      }
+      item.disabled = form.classList.contains('ad-form--disabled');
     });
   };
 
   var disableSelect = function () {
-    for (var i = 0; i < selectFilters.length; i++) {
-
-      if (map.classList.contains('map--faded')) {
-        selectFilters[i].setAttribute('disabled', true);
-      } else {
-        selectFilters[i].removeAttribute('disabled');
-      }
-    }
-
-    if (map.classList.contains('map--faded')) {
-      fieldsetFilters.setAttribute('disabled', true);
-    } else {
-      fieldsetFilters.removeAttribute('disabled');
-    }
+    var selectFilters = mapFilters.querySelectorAll('select');
+    var fieldsetFilters = mapFilters.querySelectorAll('fieldset');
+    selectFilters.forEach(function (item) {
+      item.disabled = map.classList.contains('map--faded');
+    });
+    fieldsetFilters.forEach(function (item) {
+      item.disabled = map.classList.contains('map--faded');
+    });
   };
 
 
-  var pins = function () {
+  var getPins = function () {
     return document.querySelectorAll('.map__pin');
   };
 
-  var cards = function () {
+  var getCards = function () {
     return document.querySelectorAll('.map__card');
   };
+
+  var deletePins = function () {
+    var pins = document.querySelectorAll('.map__pin + .map__pin');
+    pins.forEach(function (item) {
+      item.remove();
+    });
+  }
 
   window.util = {
     map: map,
@@ -79,8 +72,9 @@
     mainPin: mainPin,
     goodUpLoad: goodUpLoad,
     disableFieldset: disableFieldset,
-    pins: pins,
-    cards: cards,
+    getPins: getPins,
+    getCards: getCards,
+    deletePins: deletePins,
     disableSelect: disableSelect
   };
 })();

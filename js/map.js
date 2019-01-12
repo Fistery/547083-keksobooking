@@ -3,6 +3,11 @@
 
   var init = function (data, showPins) {
 
+    var MAINPIN_ADDRESS_LEFT = 32.5;
+    var MAINPIN_ADDRESS_TOP = 65;
+    var LIMIT_TOP = 32;
+    var LIMIT_BOTTOM = 84;
+
     if (showPins) {
       window.data.pinDeleteHidden();
     }
@@ -34,9 +39,9 @@
         };
 
         var limits = {
-          top: window.util.map.offsetTop + window.util.mainPin.offsetHeight + 30,
+          top: window.util.map.offsetTop + window.util.mainPin.offsetHeight + LIMIT_TOP,
           right: window.util.map.offsetWidth + window.util.map.offsetLeft - window.util.mainPin.clientWidth / 2,
-          bottom: window.util.map.offsetHeight + window.util.map.offsetTop - window.util.mainPin.offsetHeight - 84,
+          bottom: window.util.map.offsetHeight + window.util.map.offsetTop - window.util.mainPin.offsetHeight - LIMIT_BOTTOM,
           left: window.util.map.offsetLeft + window.util.mainPin.clientWidth / 2
         };
 
@@ -45,9 +50,9 @@
           y: moveEvt.pageY
         };
 
-        var addressLeft = window.util.mainPin.offsetLeft + 32.5;
-        var addressTop = window.util.mainPin.offsetTop + 65;
-        window.form.inputAdress.value = addressLeft + '\, ' + addressTop;
+        var addressLeft = window.util.mainPin.offsetLeft + MAINPIN_ADDRESS_LEFT;
+        var addressTop = window.util.mainPin.offsetTop + MAINPIN_ADDRESS_TOP;
+        window.form.adressInput.value = addressLeft + '\, ' + addressTop;
 
         if ((coordsPin.x > limits.left && coordsPin.x < limits.right) &&
           (coordsPin.y > limits.top && coordsPin.y < limits.bottom)) {
@@ -67,9 +72,9 @@
       document.addEventListener('mouseup', onMouseUp);
     });
 
-    var addressLeft = window.util.mainPin.offsetLeft + 32.5;
-    var addressTop = window.util.mainPin.offsetTop + 65;
-    window.form.inputAdress.value = addressLeft + '\, ' + addressTop;
+    var addressLeft = window.util.mainPin.offsetLeft + MAINPIN_ADDRESS_LEFT;
+    var addressTop = window.util.mainPin.offsetTop + MAINPIN_ADDRESS_TOP;
+    window.form.adressInput.value = addressLeft + '\, ' + addressTop;
   };
 
   window.map = {
