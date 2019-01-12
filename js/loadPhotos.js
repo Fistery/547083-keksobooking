@@ -17,8 +17,8 @@
   var photoContainer = document.querySelector('.ad-form__photo-container');
   var userPhotos = document.querySelector('.ad-form__photo');
 
-  var deleteImages = function (cont) {
-    var images = cont.querySelectorAll('img');
+  var deleteImages = function (container) {
+    var images = container.querySelectorAll('img');
     images.forEach(function (item) {
       item.remove();
     });
