@@ -1,20 +1,20 @@
 'use strict';
 (function () {
-  var MAINPIN_ADDRESS_LEFT = 32.5;
-  var MAINPIN_ADDRESS_TOP = 65;
-  var MAINPIN_LEFT_POSITION = 570;
-  var MAINPIN_TOP_POSITION = 375;
-  var houseRooms = document.querySelector('#room_number');
-  var houseCapacity = document.querySelector('#capacity');
-  var housePrice = document.querySelector('#price');
-  var houseType = document.querySelector('#type');
+  var MAINPIN_POSITION_LEFT = 32.5;
+  var MAINPIN_POSITION_TOP = 65;
+  var MAINPIN_ADDRESS_LEFT = 570;
+  var MAINPIN_ADDRESS_TOP = 375;
+  var houseRoomsInput = document.querySelector('#room_number');
+  var houseCapacityInput = document.querySelector('#capacity');
+  var housePriceInput = document.querySelector('#price');
+  var houseTypeInput = document.querySelector('#type');
   var submitButton = document.querySelector('.ad-form__submit');
   var timeInInput = document.querySelector('#timein');
   var timeOutInput = document.querySelector('#timeout');
   var formClearButton = document.querySelector('.ad-form__reset');
   var adressInput = document.querySelector('#address');
-  var addressLeft = window.util.mainPin.offsetLeft + MAINPIN_ADDRESS_LEFT;
-  var addressTop = window.util.mainPin.offsetTop + MAINPIN_ADDRESS_TOP;
+  var mainPinAddressLeft = window.util.mainPin.offsetLeft + MAINPIN_POSITION_LEFT;
+  var mainPinAddressTop = window.util.mainPin.offsetTop + MAINPIN_POSITION_TOP;
 
   var TypeNames = {
     bungalo: 'bungalo',
@@ -24,10 +24,10 @@
   };
 
   var MinPrices = {
-    bungalo: '0',
-    flat: '1000',
-    house: '5000',
-    palace: '10000'
+    bungalo: 0,
+    flat: 1000,
+    house: 5000,
+    palace: 10000
   };
 
   var RoomsValue = {
@@ -45,52 +45,55 @@
   };
 
   document.addEventListener('DOMContentLoaded', function () {
-    houseType.onchange = onChangeHouseType;
-    timeInInput.onchange = onChangeTime;
-    timeOutInput.onchange = onChangeTime;
+    houseTypeInput.onchange = onChangehouseTypeInput;
+    timeInInput.onchange = onChangeTimeInput;
+    timeOutInput.onchange = onChangeTimeInput;
+    houseCapacityInput.onchange = onChangeCapacityInput;
+
   }, false);
 
-  var onChangeHouseType = function () {
-    if (houseType.value === TypeNames.bungalo) {
-      housePrice.placeholder = MinPrices.bungalo;
-      housePrice.min = MinPrices.bungalo;
-    } else if (houseType.value === TypeNames.flat) {
-      housePrice.placeholder = MinPrices.flat;
-      housePrice.min = MinPrices.flat;
-    } else if (houseType.value === TypeNames.house) {
-      housePrice.placeholder = MinPrices.house;
-      housePrice.min = MinPrices.house;
-    } else if (houseType.value === TypeNames.palace) {
-      housePrice.placeholder = MinPrices.palace;
-      housePrice.min = MinPrices.palace;
+  var onChangehouseTypeInput = function () {
+    if (houseTypeInput.value === TypeNames.bungalo) {
+      housePriceInput.placeholder = MinPrices.bungalo;
+      housePriceInput.min = MinPrices.bungalo;
+    } else if (houseTypeInput.value === TypeNames.flat) {
+      housePriceInput.placeholder = MinPrices.flat;
+      housePriceInput.min = MinPrices.flat;
+    } else if (houseTypeInput.value === TypeNames.house) {
+      housePriceInput.placeholder = MinPrices.house;
+      housePriceInput.min = MinPrices.house;
+    } else if (houseTypeInput.value === TypeNames.palace) {
+      housePriceInput.placeholder = MinPrices.palace;
+      housePriceInput.min = MinPrices.palace;
     }
   };
 
 
-  var onChangeTime = function (evt) {
+  var onChangeTimeInput = function (evt) {
     timeInInput.value = evt.target.value;
     timeOutInput.value = evt.target.value;
   };
 
-  submitButton.addEventListener('click', function () {
-    if (houseRooms.value === RoomsValue.one && houseCapacity.value > CapacityValue.one) {
-      houseCapacity.setCustomValidity('количество гостей не может быть больше одного');
-    } else if (houseRooms.value === RoomsValue.one && houseCapacity.value === CapacityValue.zero) {
-      houseCapacity.setCustomValidity('одна комната сдается только для гостей');
-    } else if (houseRooms.value === RoomsValue.two && houseCapacity.value > CapacityValue.two) {
-      houseCapacity.setCustomValidity('количество гостей не может быть больше двух');
-    } else if (houseRooms.value === RoomsValue.two && houseCapacity.value === CapacityValue.zero) {
-      houseCapacity.setCustomValidity('две комнаты сдаются только для гостей');
-    } else if (houseRooms.value === RoomsValue.three && houseCapacity.value > CapacityValue.three) {
-      houseCapacity.setCustomValidity('количество гостей не может быть больше трех');
-    } else if (houseRooms.value === RoomsValue.three && houseCapacity.value === CapacityValue.zero) {
-      houseCapacity.setCustomValidity('три комнаты сдаются только для гостей');
-    } else if (houseRooms.value === RoomsValue.hundred && houseCapacity.value > CapacityValue.zero) {
-      houseCapacity.setCustomValidity('сто комнат не сдаются для гостей');
+  var onChangeCapacityInput = function () {
+    if (houseRoomsInput.value === RoomsValue.one && houseCapacityInput.value > CapacityValue.one) {
+      houseCapacityInput.setCustomValidity('количество гостей не может быть больше одного');
+    } else if (houseRoomsInput.value === RoomsValue.one && houseCapacityInput.value === CapacityValue.zero) {
+      houseCapacityInput.setCustomValidity('одна комната сдается только для гостей');
+    } else if (houseRoomsInput.value === RoomsValue.two && houseCapacityInput.value > CapacityValue.two) {
+      houseCapacityInput.setCustomValidity('количество гостей не может быть больше двух');
+    } else if (houseRoomsInput.value === RoomsValue.two && houseCapacityInput.value === CapacityValue.zero) {
+      houseCapacityInput.setCustomValidity('две комнаты сдаются только для гостей');
+    } else if (houseRoomsInput.value === RoomsValue.three && houseCapacityInput.value > CapacityValue.three) {
+      houseCapacityInput.setCustomValidity('количество гостей не может быть больше трех');
+    } else if (houseRoomsInput.value === RoomsValue.three && houseCapacityInput.value === CapacityValue.zero) {
+      houseCapacityInput.setCustomValidity('три комнаты сдаются только для гостей');
+    } else if (houseRoomsInput.value === RoomsValue.hundred && houseCapacityInput.value > CapacityValue.zero) {
+      houseCapacityInput.setCustomValidity('сто комнат не сдаются для гостей');
     } else {
-      houseCapacity.setCustomValidity('');
+      houseCapacityInput.setCustomValidity('');
     }
-  });
+    submitButton.removeEventListener('click', onChangeCapacityInput);
+  };
 
   var resetForm = function () {
     var cards = window.util.getCards();
@@ -103,15 +106,16 @@
     window.util.map.classList.add('map--faded');
     window.util.disableFieldset();
     window.util.disableSelect();
-    window.util.mainPin.style.left = MAINPIN_LEFT_POSITION + 'px';
-    window.util.mainPin.style.top = MAINPIN_TOP_POSITION + 'px';
-    adressInput.setAttribute('value', addressLeft + '\, ' + addressTop);
+    window.util.mainPin.style.left = MAINPIN_ADDRESS_LEFT + 'px';
+    window.util.mainPin.style.top = MAINPIN_ADDRESS_TOP + 'px';
+    adressInput.setAttribute('value', mainPinAddressLeft + '\, ' + mainPinAddressTop);
     window.loadPhotos.removeUpload();
+    window.util.mainPin.addEventListener('click', window.util.activeMap);
   };
 
   formClearButton.addEventListener('click', resetForm);
 
-
+  submitButton.addEventListener('click', onChangeCapacityInput);
   window.util.form.addEventListener('submit', function (event) {
     event.preventDefault();
     var formData = new FormData(window.util.form);
