@@ -59,10 +59,20 @@
   };
 
   var deletePins = function () {
-    var pins = document.querySelectorAll('.map__pin + .map__pin');
+    var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
     pins.forEach(function (item) {
       item.remove();
     });
+  };
+
+  var activeMap = function () {
+    window.util.map.classList.remove('map--faded');
+    window.util.form.classList.remove('ad-form--disabled');
+    window.data.createAllPin(window.peoples);
+    window.data.generatedCard(window.peoples);
+    window.util.disableSelect();
+    window.util.disableFieldset();
+    window.util.mainPin.removeEventListener('click', activeMap);
   };
 
   window.util = {
@@ -75,6 +85,7 @@
     getPins: getPins,
     getCards: getCards,
     deletePins: deletePins,
-    disableSelect: disableSelect
+    disableSelect: disableSelect,
+    activeMap: activeMap
   };
 })();

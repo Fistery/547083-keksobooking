@@ -8,7 +8,7 @@
   };
 
   var onLoad = function (data) {
-    window.map.init(data, false);
+    window.map.init(false);
     window.peoples = data;
   };
 

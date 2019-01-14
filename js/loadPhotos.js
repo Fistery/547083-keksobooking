@@ -15,7 +15,7 @@
 
   var inputFilePhotos = document.querySelector('#images');
   var photoContainer = document.querySelector('.ad-form__photo-container');
-  var userPhotos = document.querySelector('.ad-form__photo');
+  var userPhoto = document.querySelector('.ad-form__photo');
 
   var deleteImages = function (container) {
     var images = container.querySelectorAll('img');
@@ -78,7 +78,7 @@
   });
 
   inputFilePhotos.addEventListener('change', function () {
-    getReaderResult(inputFilePhotos, photoContainer, userPhotos, ROOMS_PHOTO_WIDTH, ROOMS_PHOTO_HEIGHT, ROOMS_PHOTO_MARGIN);
+    getReaderResult(inputFilePhotos, photoContainer, userPhoto, ROOMS_PHOTO_WIDTH, ROOMS_PHOTO_HEIGHT, ROOMS_PHOTO_MARGIN);
   });
 
   window.loadPhotos = {
