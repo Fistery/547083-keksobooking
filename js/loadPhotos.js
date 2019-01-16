@@ -8,14 +8,15 @@
   var ROOMS_PHOTO_WIDTH = 60;
   var ROOMS_PHOTO_HEIGHT = 60;
   var ROOMS_PHOTO_MARGIN = 5;
-  var inputFileAvatar = document.querySelector('#avatar');
+  var AVATAR_DEFAULT_SRC = 'img/muffin-grey.svg';
+  var fileAvatarInput = document.querySelector('#avatar');
   var userAvatar = document.querySelector('.ad-form-header__preview > img');
   var avatarContainer = document.querySelector('.ad-form-header__preview');
-  var avatarDefaultSrc = 'img/muffin-grey.svg';
 
-  var inputFilePhotos = document.querySelector('#images');
+  var filePhotosInput = document.querySelector('#images');
   var photoContainer = document.querySelector('.ad-form__photo-container');
   var userPhoto = document.querySelector('.ad-form__photo');
+  userPhoto.remove();
 
   var deleteImages = function (container) {
     var images = container.querySelectorAll('img');
@@ -34,7 +35,7 @@
     var image = document.createElement('img');
     var avatar = image.cloneNode(true);
     avatarContainer.appendChild(avatar);
-    avatar.src = avatarDefaultSrc;
+    avatar.src = AVATAR_DEFAULT_SRC;
     avatar.style.width = AVATAR_WIDTH + 'px';
     avatar.style.height = AVATAR_HEIGHT + 'px';
   };
@@ -73,12 +74,12 @@
     paint.remove();
   };
 
-  inputFileAvatar.addEventListener('change', function () {
-    getReaderResult(inputFileAvatar, avatarContainer, userAvatar, AVATAR_WIDTH, AVATAR_HEIGHT, AVATAR_MARGIN);
+  fileAvatarInput.addEventListener('change', function () {
+    getReaderResult(fileAvatarInput, avatarContainer, userAvatar, AVATAR_WIDTH, AVATAR_HEIGHT, AVATAR_MARGIN);
   });
 
-  inputFilePhotos.addEventListener('change', function () {
-    getReaderResult(inputFilePhotos, photoContainer, userPhoto, ROOMS_PHOTO_WIDTH, ROOMS_PHOTO_HEIGHT, ROOMS_PHOTO_MARGIN);
+  filePhotosInput.addEventListener('change', function () {
+    getReaderResult(filePhotosInput, photoContainer, userPhoto, ROOMS_PHOTO_WIDTH, ROOMS_PHOTO_HEIGHT, ROOMS_PHOTO_MARGIN);
   });
 
   window.loadPhotos = {

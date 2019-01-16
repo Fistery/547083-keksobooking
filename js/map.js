@@ -3,8 +3,8 @@
 
   var init = function (showPins) {
 
-    var MAINPIN_POSITION_LEFT = 32.5;
     var MAINPIN_POSITION_TOP = 65;
+    var MAINPIN_POSITION_LEFT = 32.5;
     var LIMIT_POSITION_TOP = 32;
     var LIMIT_POSITION_BOTTOM = 84;
 

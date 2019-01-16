@@ -13,6 +13,13 @@
     high: '50000'
   };
 
+  var getValidityChecboxValue = function (checkbox) {
+    var checkboxId = checkbox;
+    var regExp = /filter-/;
+    var resultValidity = checkboxId.replace(regExp, '');
+    return resultValidity;
+  };
+
   var onChangeFilter = function () {
     window.util.debounce(filterPreform());
   };
@@ -51,23 +58,22 @@
         return item.offer.guests === parseInt(houseGuestsSelect.value, 10) || houseGuestsSelect.value === 'any';
       })
       .filter(function (item) {
-        var checked = houseFeaturesFieldset.querySelectorAll('input[type=checkbox]:checked');
-        if (checked.length === 0) {
+        var checkedCheckboxes = houseFeaturesFieldset.querySelectorAll('input[type=checkbox]:checked');
+        if (checkedCheckboxes.length === 0) {
           return true;
         }
-        var result = item.offer.features.filter(function (it) {
-          for (var j = 0; j < checked.length; j++) {
-            if (checked[j].id === 'filter-' + it) {
-              return true;
-            }
+        for (var j = 0; j < checkedCheckboxes.length; j++) {
+          var checkboxValidityValue = getValidityChecboxValue(checkedCheckboxes[j].id);
+          if (item.offer.features.indexOf(checkboxValidityValue) < 0) {
+            return false;
           }
-          return false;
-        });
-        return result.length > 0;
+        }
+        return true;
       });
 
     window.data.createAllPin(filterPeoples);
     window.data.generatedCard(filterPeoples);
+
   };
 
 })();

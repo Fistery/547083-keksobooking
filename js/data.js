@@ -105,16 +105,8 @@
     card.querySelector('.popup__type').textContent = getOfferType(people.offer.type);
     card.querySelector('.popup__text--capacity').textContent = people.offer.rooms + ' комнаты для ' +
       people.offer.guests + ' гостей';
-    if (people.offer.checkin && people.offer.checkout) {
-      card.querySelector('.popup__text--time').textContent = 'Заезд после ' + people.offer.checkin + ', выезд до ' +
-        people.offer.checkout;
-    }
-    if (people.offer.checkin && !people.offer.checkout) {
-      card.querySelector('.popup__text--time').textContent = 'Заезд после ' + people.offer.checkin;
-    }
-    if (!people.offer.checkin && people.offer.checkout) {
-      card.querySelector('.popup__text--time').textContent = 'Выезд до ' + people.offer.checkout;
-    }
+    card.querySelector('.popup__text--time').textContent = 'Заезд после ' + people.offer.checkin + ', выезд до ' +
+      people.offer.checkout;
     card.querySelector('.popup__features').appendChild(getAddFeatures(people.offer.features));
     card.querySelector('.popup__description').textContent = people.offer.description;
     window.data.createCardImageTemplate(card.querySelector('.popup__photos'), people.offer.photos);
