@@ -14,7 +14,12 @@
   var adressInput = document.querySelector('#address');
   var mainPinAddressLeft = window.util.mainPin.offsetLeft + MAINPIN_POSITION_LEFT;
   var mainPinAddressTop = window.util.mainPin.offsetTop + MAINPIN_POSITION_TOP;
-  var capasityOptions = document.querySelector('#capacity').querySelectorAll('option');
+
+  var getCapasityOptions = function () {
+    return document.querySelector('#capacity').querySelectorAll('option');
+  };
+
+  var capasityOptions = getCapasityOptions();
 
   var TypeNames = {
     bungalo: 'bungalo',
@@ -79,19 +84,19 @@
   timeOutInput.onchange = onChangeTimeInput;
   houseRoomsInput.onchange = onChangeRoomsInput;
 
-  var addHiddenCapasityOptions = function () {
-    capasityOptions.forEach(function (item) {
-      item.removeAttribute('selected');
-      item.classList.add('hidden');
+  var deleteCapasityOptions = function () {
+    var capasityOptionsForRemoval = getCapasityOptions();
+    capasityOptionsForRemoval.forEach(function (item) {
+      item.remove();
     });
   };
 
   var setCapasityOptions = function () {
-    addHiddenCapasityOptions();
+    deleteCapasityOptions();
     CapacityValueMap[houseRoomsInput.value].items.forEach(function (item) {
-      capasityOptions[item].classList.remove('hidden');
+      var capasityOptionTemplate = capasityOptions[item].cloneNode(true);
+      houseCapacityInput.appendChild(capasityOptionTemplate);
     });
-    houseCapacityInput.value = CapacityValueMap[houseRoomsInput.value].value;
   };
 
   setCapasityOptions();
@@ -110,6 +115,8 @@
     window.util.mainPin.style.left = MAINPIN_ADDRESS_LEFT + 'px';
     window.util.mainPin.style.top = MAINPIN_ADDRESS_TOP + 'px';
     adressInput.setAttribute('value', mainPinAddressLeft + '\, ' + mainPinAddressTop);
+    housePriceInput.placeholder = MinPrices.flat;
+    housePriceInput.min = MinPrices.flat;
     window.loadPhotos.removeUpload();
     setCapasityOptions();
     window.util.mainPin.addEventListener('click', window.util.activeMap);
