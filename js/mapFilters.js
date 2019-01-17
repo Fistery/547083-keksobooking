@@ -1,6 +1,7 @@
 'use strict';
 
 (function () {
+  var DEFAULT_SELECTS_VALUE = 'any';
   var mapHouseFilters = document.querySelector('.map__filters');
   var houseTypeSelect = mapHouseFilters.querySelector('#housing-type');
   var housePriseSelect = mapHouseFilters.querySelector('#housing-price');
@@ -22,6 +23,21 @@
 
   var onChangeFilter = function () {
     window.util.debounce(filterPreform());
+  };
+
+  var getCheckedCheckboxes = function () {
+    return houseFeaturesFieldset.querySelectorAll('input[type=checkbox]:checked');
+  };
+
+  var resetMapFilters = function () {
+    var checkboxes = getCheckedCheckboxes();
+    var selects = mapHouseFilters.querySelectorAll('select');
+    checkboxes.forEach(function (item) {
+      item.checked = false;
+    });
+    selects.forEach(function (item) {
+      item.value = DEFAULT_SELECTS_VALUE;
+    });
   };
 
   houseTypeSelect.onchange = onChangeFilter;
@@ -58,7 +74,7 @@
         return item.offer.guests === parseInt(houseGuestsSelect.value, 10) || houseGuestsSelect.value === 'any';
       })
       .filter(function (item) {
-        var checkedCheckboxes = houseFeaturesFieldset.querySelectorAll('input[type=checkbox]:checked');
+        var checkedCheckboxes = getCheckedCheckboxes();
         if (checkedCheckboxes.length === 0) {
           return true;
         }
@@ -74,6 +90,10 @@
     window.data.createAllPin(filterPeoples);
     window.data.generatedCard(filterPeoples);
 
+  };
+
+  window.mapFilters = {
+    resetMapFilters: resetMapFilters
   };
 
 })();

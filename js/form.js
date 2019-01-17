@@ -118,6 +118,7 @@
     housePriceInput.placeholder = MinPrices.flat;
     housePriceInput.min = MinPrices.flat;
     window.loadPhotos.removeUpload();
+    window.mapFilters.resetMapFilters();
     setCapasityOptions();
     window.util.mainPin.addEventListener('click', window.util.activeMap);
   };
